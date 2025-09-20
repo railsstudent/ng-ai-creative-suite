@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  // {
-  //   path: 'story-generator',
-  //   loadComponent: () => import('./components/story-generator/story-generator.component').then(m => m.StoryGeneratorComponent),
-  //   title: 'Story Generator'
-  // },
+  {
+    path: 'story-generator',
+    loadComponent: () => import('./story-generator/story-generator.component'),
+    title: 'Story Generator'
+  },
   // {
   //   path: 'image-creator',
   //   loadComponent: () => import('./components/image-creator/image-creator.component').then(m => m.ImageCreatorComponent),
@@ -21,13 +21,13 @@ export const routes: Routes = [
   //   loadComponent: () => import('./components/chatbot/chatbot.component').then(m => m.ChatbotComponent),
   //   title: 'Chatbot'
   // },
-  // {
-  //   path: '',
-  //   redirectTo: '/story-generator',
-  //   pathMatch: 'full'
-  // },
-  // {
-  //   path: '**',
-  //   redirectTo: '/story-generator'
-  // }
+  {
+    path: '',
+    redirectTo: '/story-generator',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: '/story-generator'
+  }
 ];

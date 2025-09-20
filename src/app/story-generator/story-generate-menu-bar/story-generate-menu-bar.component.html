@@ -1,0 +1,31 @@
+<div class="flex flex-col gap-4">
+  <app-prompt-form
+    [(prompt)]="prompt"
+    [isLoading]="isLoading()"
+    [isGenerationDisabled]="isGenerationDisabled()"
+    (generate)="onGenerateStoryClick()"
+    placeholderText="e.g., A detective who can talk to plants."
+  >
+    <span button-text>Generate Story</span>
+    <span loading-text>Generating...</span>
+  </app-prompt-form>
+
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div class="flex-1">
+      <label for="story-length" class="story-label">Story Length</label>
+      <select id="story-length" [(ngModel)]="storyLength" class="story-select">
+        @for (option of storyLengthOptions(); track option.value) {
+          <option [ngValue]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </div>
+    <div class="flex-1">
+      <label for="story-genre" class="story-label">Genre</label>
+      <select id="story-genre" [(ngModel)]="genre" class="story-select">
+        @for (option of genreOptions(); track option.value) {
+          <option [ngValue]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </div>
+  </div>
+</div>

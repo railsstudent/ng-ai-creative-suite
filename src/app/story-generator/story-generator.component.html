@@ -1,0 +1,43 @@
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-2">Story Generator</h1>
+  <p class="text-lg text-gray-400 mb-6">Unleash your imagination. Provide a prompt and let AI weave a tale for you.</p>
+
+  <div class="bg-gray-800 rounded-lg shadow-xl p-6">
+    <app-story-generate-menu-bar
+      [(prompt)]="prompt"
+      [(storyLength)]="storyLength"
+      [(genre)]="genre"
+      [storyLengthOptions]="storyLengthOptions"
+      [genreOptions]="genreOptions"
+      [isLoading]="isLoading()"
+      [isGenerationDisabled]="isGenerationDisabled()"
+      (generateStory)="generateStory()"
+    />
+  </div>
+
+  <app-prompt-history
+    [history]="promptHistory()"
+    (promptSelected)="usePromptFromHistory($event)"
+    (historyCleared)="clearHistory()"
+  />
+
+  @if (error()) {
+    <div class="mt-6 bg-red-900 border border-red-700 text-red-200 px-4 py-3 rounded-lg relative" role="alert">
+      <strong class="font-bold">Error:</strong>
+      <span class="block sm:inline ml-2">{{ error() }}</span>
+    </div>
+  }
+
+  @if (isLoading()) {
+    <div class="mt-6">
+      <app-loader loadingText="Generating your story...">
+        <p class="text-sm">This may take a moment.</p>
+      </app-loader>
+    </div>
+  } @else if (story()) {
+    <div class="mt-6 bg-gray-800 rounded-lg shadow-xl p-6">
+      <h2 class="text-2xl font-bold text-indigo-400 mb-4">Your Story</h2>
+      <div class="prose prose-invert max-w-none text-gray-300 whitespace-pre-wrap">{{ story() }}</div>
+    </div>
+  }
+</div>
