@@ -28,10 +28,14 @@ ng generate --help
 
 ## Building
 
+Visit `https://aistudio.google.com/apikey` and copy the Gemini API Key.
+
 To build the project run:
 
 ```bash
-ng build
+export GEMINI_API_KEY=<gemini api key>
+ng build --define GEMINI_API_KEY=\'$GEMINI_API_KEY\'
+serve dist
 ```
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
