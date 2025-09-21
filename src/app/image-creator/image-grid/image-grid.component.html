@@ -6,8 +6,8 @@
         [index]="i"
         [isSelected]="selectedImageId() === image.id"
         [enableSelection]="enableSelection()"
-        (selected)="onSelectImage($event)"
-        (downloaded)="onDownloadImage($event)"
+        (selected)="imageSelected.emit($event)"
+        (downloaded)="imageDownloaded.emit($event)"
       />
     }
   </div>

@@ -15,12 +15,4 @@ export class ImageGridComponent {
 
   imageSelected = output<number>();
   imageDownloaded = output<ImageDownloadEvent>();
-
-  onSelectImage(id: number): void {
-    this.imageSelected.emit(id);
-  }
-
-  onDownloadImage(event: ImageDownloadEvent): void {
-    this.imageDownloaded.emit(event);
-  }
 }

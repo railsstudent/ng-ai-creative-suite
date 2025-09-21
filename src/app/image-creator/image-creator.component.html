@@ -19,7 +19,7 @@
 
   <app-prompt-history
     [history]="promptHistory()"
-    (promptSelected)="usePromptFromHistory($event)"
+    (promptSelected)="prompt.set($event)"
     (historyCleared)="clearHistory()"
   />
 
@@ -36,18 +36,18 @@
         <p class="text-sm">This may take a moment.</p>
       </app-loader>
     } @else {
-      <app-image-grid 
+      <app-image-grid
         [images]="imageUrls()"
         [selectedImageId]="selectedImageId()"
         [enableSelection]="enableVideoGeneration()"
         (imageSelected)="selectImage($event)"
-        (imageDownloaded)="downloadImage($event.imageUrl, $event.index)"
+        (imageDownloaded)="downloadImage($event)"
         />
     }
   </div>
 
   @if (enableVideoGeneration()) {
-    <app-video-player 
+    <app-video-player
       [prompt]="prompt()"
       [selectedImage]="selectedImage()"
       [isImageLoading]="isLoading()" />

@@ -2,10 +2,11 @@
   <!-- Top row: Prompt and Generate Button -->
   <app-prompt-form
     [(prompt)]="prompt"
-    (generate)="onGenerateImageClick()"
+    (generate)="generateImage.emit()"
+    placeholderText="e.g., A synthwave sunset over a futuristic city."
   >
     <span button-text>Generate Image</span>
-    <span loading-text>Creating...</span>
+    <span loading-text>Generating...</span>
   </app-prompt-form>
 
   <!-- Bottom row: Settings -->
@@ -38,7 +39,7 @@
     <div>
       @if (enableVideoGeneration()) {
           <button
-            (click)="onGenerateVideoClick()"
+            (click)="generateVideo.emit()"
             [disabled]="isGenerateVideoDisabled()"
             class="h-full inline-flex items-center justify-center px-4 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 disabled:bg-indigo-400 disabled:cursor-not-allowed transition duration-200">
             @if (isGeneratingVideo()) {

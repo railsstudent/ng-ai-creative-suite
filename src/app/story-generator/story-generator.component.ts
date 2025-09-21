@@ -22,6 +22,7 @@ export default class StoryGeneratorComponent {
   prompt = this.storyService.prompt;
   isLoading = this.storyService.isLoading;
   error = this.storyService.error;
+  isGenerationDisabled = this.storyService.isGenerationDisabled;
 
   storyLength = signal<StoryLength>('short');
   genre = signal('fantasy');
@@ -32,8 +33,6 @@ export default class StoryGeneratorComponent {
 
   readonly storyLengthOptions = this.storyService.getStoryLengthOptions();
   readonly genreOptions = this.storyService.getGenreOptions();
-
-  isGenerationDisabled = computed(() => !this.prompt().trim() || this.isLoading());
 
   constructor() {
     this.prompt.set('A knight who is afraid of the dark');
@@ -60,7 +59,6 @@ export default class StoryGeneratorComponent {
     }
 
     this.clearStory();
-    this.error.set('');
     const trimmedPrompt = this.prompt().trim();
 
     // Update prompt signal if it contained whitespace
@@ -69,7 +67,6 @@ export default class StoryGeneratorComponent {
     }
 
     const params = {
-      prompt: this.prompt(),
       lengthDescription: this.storyLength(),
       genre: this.genre()
     };

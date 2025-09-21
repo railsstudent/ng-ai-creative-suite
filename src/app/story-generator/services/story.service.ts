@@ -1,10 +1,10 @@
-import { UIStateService } from './../../ui/services/ui-state.service';
 import { inject, Injectable, WritableSignal } from '@angular/core';
 import { GeminiService } from '../../gemini/services/gemini.service';
-import { StoryOption } from '../types/story-option';
-import { StoryParams } from '../types/story-param';
-import { PromptHistoryService } from '../../ui/services/prompt-history.service';
 import { ParserService } from '../../ui/services/parser.service';
+import { PromptHistoryService } from '../../ui/services/prompt-history.service';
+import { UIStateService } from '../../ui/services/ui-state.service';
+import { StoryOption } from '../types/story-option';
+import { StoryParams } from '../types/story-params';
 
 @Injectable({
   providedIn: 'root'
@@ -44,14 +44,14 @@ export class StoryService {
     ];
   }
 
-  async generateStory({ prompt, lengthDescription: length, genre }: StoryParams, chunkSignal: WritableSignal<string>): Promise<void> {
+  async generateStory({ lengthDescription: length, genre }: StoryParams, chunkSignal: WritableSignal<string>): Promise<void> {
 
     try {
       this.isLoading.set(true);
       this.error.set('');
 
       // The service now handles trimming and empty checks for history
-      this.promptHistoryService.addPrompt(this.historyKey, prompt);
+      this.promptHistoryService.addPrompt(this.historyKey, this.prompt());
 
       const lengthInstruction = {
         short: 'a short (around 150 words)',
@@ -59,7 +59,7 @@ export class StoryService {
         long: 'a long (around 500 words)',
       }[length];
 
-      const fullPrompt = `Write ${lengthInstruction} creative ${genre} story based on the following prompt: "${prompt}"`;
+      const fullPrompt = `Write ${lengthInstruction} creative ${genre} story based on the following prompt: "${this.prompt()}"`;
       const stream = await this.geminiService.generateTextStream(fullPrompt);
       this.isLoading.set(false);
 

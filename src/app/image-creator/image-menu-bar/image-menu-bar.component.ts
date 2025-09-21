@@ -31,12 +31,4 @@ export class ImageMenuBarComponent {
   // Event emitters
   generateImage = output<void>();
   generateVideo = output<void>();
-
-  onGenerateImageClick(): void {
-    this.generateImage.emit();
-  }
-
-  onGenerateVideoClick(): void {
-    this.generateVideo.emit();
-  }
 }
