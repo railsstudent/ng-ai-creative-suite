@@ -6,7 +6,7 @@ import { StoryOption } from '../types/story-option';
 @Component({
   selector: 'app-story-generate-menu-bar',
   templateUrl: './story-generate-menu-bar.component.html',
-  styleUrl: './story-generate-menu-bar.component.css',
+  styleUrl: '../../shared/tailwind-utilities.css',
   imports: [FormsModule, PromptFormComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -26,8 +26,4 @@ export class StoryGenerateMenuBarComponent {
 
   // Event emitter for generating the story
   generateStory = output<void>();
-
-  onGenerateStoryClick(): void {
-    this.generateStory.emit();
-  }
 }

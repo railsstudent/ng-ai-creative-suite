@@ -12,8 +12,6 @@ export class PromptFormComponent {
   prompt = model.required<string>();
   isLoading = input(false);
   isGenerationDisabled = input(false);
-  
-  placeholderText = input('e.g., A knight who is afraid of the dark.');
 
   generate = output<void>();
 

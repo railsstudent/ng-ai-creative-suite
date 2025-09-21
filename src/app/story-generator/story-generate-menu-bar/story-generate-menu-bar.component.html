@@ -3,8 +3,7 @@
     [(prompt)]="prompt"
     [isLoading]="isLoading()"
     [isGenerationDisabled]="isGenerationDisabled()"
-    (generate)="onGenerateStoryClick()"
-    placeholderText="e.g., A detective who can talk to plants."
+    (generate)="generateStory.emit()"
   >
     <span button-text>Generate Story</span>
     <span loading-text>Generating...</span>

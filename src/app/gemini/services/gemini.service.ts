@@ -1,9 +1,9 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable, WritableSignal, inject } from '@angular/core';
 import { firstValueFrom, map } from 'rxjs';
-import { GeneratedBase64Image } from '../types/generated-image.type';
-import { GEMINI_MODEL_NAME, IMAGE_MODEL_NAME, VIDEO_MODEL_NAME } from '../constants/model-name.const';
 import { GEMINI_AI_TOKEN, GEMINI_CHAT_TOKEN } from '../constants/ai-injection-tokens.const';
+import { GEMINI_MODEL_NAME, IMAGE_MODEL_NAME, VIDEO_MODEL_NAME } from '../constants/model-name.const';
+import { GeneratedBase64Image } from '../types/generated-image.type';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,6 @@ export class GeminiService {
   private http = inject(HttpClient);
   private readonly ai = inject(GEMINI_AI_TOKEN);
   private readonly chat = inject(GEMINI_CHAT_TOKEN);
-  private readonly models = this.ai.models;
 
   private getErrorMessage(error: unknown): string {
     console.error('Gemini API Error:', error);
@@ -50,23 +49,42 @@ export class GeminiService {
     return 'An unexpected error occurred. Please check the console for details.';
   }
 
-  async generateText(prompt: string): Promise<string> {
+  async generateTextStream(prompt: string,
+    chunkSignal: WritableSignal<string>,
+    loaderSignal: WritableSignal<boolean>
+  ): Promise<void> {
     try {
-      const response = await this.models.generateContent({
+      loaderSignal.set(true);
+      chunkSignal.set('');
+
+      const stream = await this.ai.models.generateContentStream({
         model: GEMINI_MODEL_NAME,
         contents: prompt,
+        config: {
+          maxOutputTokens: +MAX_OUTPUT_TOKEN,
+          temperature: +TEMPERATURE,
+          topK: +TOP_K,
+          topP: +TOP_P,
+        }
       });
 
-      const text = response.text || '';
-      return text;
+      loaderSignal.set(false);
+
+      for await (const chunk of stream) {
+        const chunkText = chunk.candidates?.[0].content?.parts?.[0].text || '';
+        const markdownText = chunkText.replace(/\n\n/g, '<br><br>')
+        chunkSignal.set(markdownText);
+      }
     } catch (error) {
       throw new Error(this.getErrorMessage(error));
+    } finally {
+      loaderSignal.set(false);
     }
   }
 
   async generateImages(prompt: string, numberOfImages: number, aspectRatio: string): Promise<GeneratedBase64Image[]> {
     try {
-        const response = await this.models.generateImages({
+        const response = await this.ai.models.generateImages({
             model: IMAGE_MODEL_NAME,
             prompt: prompt,
             config: {
@@ -107,7 +125,7 @@ export class GeminiService {
         const request = { ...defaultRequest, ...image };
         const polling_period = 10000;
 
-        let operation = await this.models.generateVideos(request);
+        let operation = await this.ai.models.generateVideos(request);
         while (!operation.done) {
             // Polling every 10 seconds as per docs example
             await new Promise(resolve => setTimeout(resolve, polling_period));

@@ -1,48 +1,66 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { GeminiService } from '../gemini/services/gemini.service';
+import { afterRenderEffect, ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, Renderer2, signal, viewChild } from '@angular/core';
+import { ParserService } from '../gemini/services/parser.service';
 import { LoaderComponent } from '../shared/loader/loader.component';
 import { PromptHistoryComponent } from '../shared/prompt-history/prompt-history.component';
-import { PromptHistoryService } from '../shared/services/prompt-history.service';
+import { StoryService } from './services/story.service';
 import { StoryGenerateMenuBarComponent } from './story-generate-menu-bar/story-generate-menu-bar.component';
-import { GENRE_OPTIONS, STORY_LENGTH_OPTIONS } from './story-generation-options.const';
+import { StoryLength } from './types/story-length';
 
 @Component({
   selector: 'app-story-generator',
   templateUrl: './story-generator.component.html',
   imports: [LoaderComponent, PromptHistoryComponent, StoryGenerateMenuBarComponent],
+  styleUrl: '../shared/tailwind-utilities.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class StoryGeneratorComponent {
-  private geminiService = inject(GeminiService);
-  private promptHistoryService = inject(PromptHistoryService);
+  private readonly storyService = inject(StoryService);
+  private readonly parserService = inject(ParserService);
+  private readonly renderer = inject(Renderer2);
 
-  private readonly historyKey = 'story';
-  promptHistory = this.promptHistoryService.getHistory(this.historyKey);
+  promptHistory = this.storyService.promptHistory;
 
   prompt = signal('A knight who is afraid of the dark.');
-  storyLength = signal<'short' | 'medium' | 'long'>('medium');
+  storyLength = signal<StoryLength>('short');
   genre = signal('fantasy');
   story = signal('');
   isLoading = signal(false);
   error = signal('');
 
-  readonly storyLengthOptions = STORY_LENGTH_OPTIONS;
-  readonly genreOptions = GENRE_OPTIONS;
+  storyHolder = viewChild<ElementRef<HTMLDivElement>>('storyHolder');
+  storyHolderElement = computed(() => this.storyHolder()?.nativeElement);
+
+  readonly storyLengthOptions = this.storyService.getStoryLengthOptions();
+  readonly genreOptions = this.storyService.getGenreOptions();
 
   isGenerationDisabled = computed(() => !this.prompt().trim() || this.isLoading());
+
+  constructor() {
+    effect(() => {
+      console.log('Effect callback of the story generator is run.');
+      const element = this.storyHolderElement();
+      if (element && !this.parserService.hasParser()) {
+        this.parserService.initParser(element);
+      }
+    });
+
+    afterRenderEffect({
+      write: () => {
+        const value = this.story();
+        if (value) {
+          this.parserService.writeToElement(value);
+        }
+      }
+    });
+  }
 
   async generateStory(): Promise<void> {
     if (this.isGenerationDisabled()) {
       return;
     }
 
-    this.isLoading.set(true);
-    this.story.set('');
+    this.clearStory();
     this.error.set('');
-
-    // The service now handles trimming and empty checks for history
-    this.promptHistoryService.addPrompt(this.historyKey, this.prompt());
-
     const trimmedPrompt = this.prompt().trim();
 
     // Update prompt signal if it contained whitespace
@@ -51,28 +69,27 @@ export default class StoryGeneratorComponent {
     }
 
     try {
-      const lengthInstruction = {
-        short: 'a short (around 100 words)',
-        medium: 'a medium-length (around 200 words)',
-        long: 'a long (around 300 words)',
-      }[this.storyLength()];
-
-      const fullPrompt = `Write ${lengthInstruction} creative ${this.genre()} story based on the following prompt: "${trimmedPrompt}"`;
-      const result = await this.geminiService.generateText(fullPrompt);
-      this.story.set(result);
+      const params = {
+        prompt: this.prompt(),
+        lengthDescription: this.storyLength(),
+        genre: this.genre()
+      };
+      await this.storyService.generateStory(params, this.story, this.isLoading);
+      this.parserService.resetParser();
     } catch (e: unknown) {
       this.error.set(e instanceof Error ? e.message : 'Failed to generate story. Please try again.');
       console.error(e);
-    } finally {
-      this.isLoading.set(false);
     }
   }
 
-  usePromptFromHistory(selectedPrompt: string): void {
-    this.prompt.set(selectedPrompt);
+  clearHistory(): void {
+    this.storyService.clearHistory();
   }
 
-  clearHistory(): void {
-    this.promptHistoryService.clearHistory(this.historyKey);
+  private clearStory() {
+    const element = this.storyHolderElement();
+    if (element?.lastChild) {
+      this.renderer.setProperty(element, 'innerHTML', '');
+    }
   }
 }

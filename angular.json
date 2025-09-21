@@ -38,7 +38,11 @@
               "src/styles.css"
             ],
             "define": {
-              "GEMINI_API_KEY": "YOUR_API_KEY"
+              "GEMINI_API_KEY": "YOUR_API_KEY",
+              "MAX_OUTPUT_TOKEN": "4096",
+              "TEMPERATURE": "0.3",
+              "TOP_K": "40",
+              "TOP_P": "0.75"
             }
           },
           "configurations": {
