@@ -1,17 +1,18 @@
-<dialog 
-  #dialog 
+<dialog
+  #dialog
   (close)="onCancel()"
-  class="bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6 text-gray-100 backdrop:bg-black backdrop:bg-opacity-75"
+  class="fixed top-1/2 left-1/2 bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6 text-gray-100 backdrop:bg-black backdrop:bg-opacity-75"
+  style="transform: translate(-50%, -50%)"
 >
   <ng-content>Default Dialog Content</ng-content>
 
   <div class="flex justify-end gap-4">
-    <button 
+    <button
       (click)="onCancel()"
       class="px-4 py-2 rounded-md text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-500 transition-colors">
       {{ cancelText() }}
     </button>
-    <button 
+    <button
       (click)="onConfirm()"
       class="px-4 py-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 transition-colors">
       {{ confirmText() }}
