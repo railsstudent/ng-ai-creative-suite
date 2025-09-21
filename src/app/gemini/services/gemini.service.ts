@@ -64,28 +64,28 @@ export class GeminiService {
 
   async generateImages(prompt: string, numberOfImages: number, aspectRatio: string): Promise<GeneratedBase64Image[]> {
     try {
-        const response = await this.ai.models.generateImages({
-            model: IMAGE_MODEL_NAME,
-            prompt: prompt,
-            config: {
-                numberOfImages: numberOfImages,
-                outputMimeType: 'image/png',
-                aspectRatio: aspectRatio,
-            },
+      const response = await this.ai.models.generateImages({
+          model: IMAGE_MODEL_NAME,
+          prompt,
+          config: {
+              numberOfImages,
+              outputMimeType: 'image/png',
+              aspectRatio,
+          },
+      });
+
+      const images = response.generatedImages || [];
+
+      return images.reduce((acc, img, id) => {
+        if (!img.image?.imageBytes) {
+          return acc;
+        }
+
+        return acc.concat({
+          id,
+          url: `data:image/png;base64,${img.image.imageBytes}`,
         });
-
-        const images = response.generatedImages || [];
-
-        return images.reduce((acc, img, id) => {
-          if (!img.image?.imageBytes) {
-            return acc;
-          }
-
-          return acc.concat({
-            id,
-            url: `data:image/png;base64,${img.image.imageBytes}`,
-          });
-        }, [] as GeneratedBase64Image[]);
+      }, [] as GeneratedBase64Image[]);
     } catch (error) {
         throw new Error(this.getErrorMessage(error));
     }
@@ -118,12 +118,14 @@ export class GeminiService {
             return null;
         }
 
+        const apiKey = GEMINI_API_KEY;
+
         // The API key is needed for the download
-        if (!GEMINI_API_KEY) {
+        if (!apiKey) {
             throw new Error("API_KEY is not set. Cannot download video.");
         }
 
-        const blobUrl = this.http.get(`${downloadLink}&key=${GEMINI_API_KEY}`, {
+        const blobUrl = this.http.get(`${downloadLink}&key=${apiKey}`, {
           responseType: 'blob'
         }).pipe(
           map((blob) => URL.createObjectURL(blob))
@@ -132,16 +134,6 @@ export class GeminiService {
         return await firstValueFrom(blobUrl);
     } catch (error) {
         throw new Error(this.getErrorMessage(error));
-    }
-  }
-
-  async sendChatMessage(message: string): Promise<string> {
-    try {
-      const response = await this.chat.sendMessage({ message });
-      const text = response.text || '';
-      return text;
-    } catch (error) {
-      throw new Error(this.getErrorMessage(error));
     }
   }
 
