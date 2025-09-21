@@ -13,6 +13,7 @@ export class ImageService {
   private readonly geminiService = inject(GeminiService);
   private readonly promptHistoryService = inject(PromptHistoryService);
   private readonly uiStateService = inject(UIStateService);
+  private readonly document = inject(DOCUMENT);
 
   private readonly historyKey = 'image';
 
@@ -50,7 +51,6 @@ export class ImageService {
     this.promptHistoryService.clearHistory(this.historyKey);
   }
 
-  private document = inject(DOCUMENT);
   downloadImage({ imageUrl, index }: ImageDownloadEvent) {
     const link = this.document.createElement('a');
     link.href = imageUrl;

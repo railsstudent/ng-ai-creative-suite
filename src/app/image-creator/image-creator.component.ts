@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../ui/confirmation-dialog/confirmation-dialog.component';
 import { LoaderComponent } from '../ui/loader/loader.component';
 import { PromptHistoryComponent } from '../ui/prompt-history/prompt-history.component';
-import { VideoPlayerComponent } from '../video-player/video-player.component';
+import { VideoPlayerComponent } from '../video-generator/video-player/video-player.component';
 import { ImageGridComponent } from './image-grid/image-grid.component';
 import { ImageMenuBarComponent } from './image-menu-bar/image-menu-bar.component';
 import { ImageService } from './services/image.service';
