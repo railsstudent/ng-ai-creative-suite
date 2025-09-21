@@ -42,7 +42,8 @@
               "MAX_OUTPUT_TOKEN": "4096",
               "TEMPERATURE": "0.3",
               "TOP_K": "40",
-              "TOP_P": "0.75"
+              "TOP_P": "0.75",
+              "CHAT_MAX_OUTPUT_TOKEN": "2048"
             }
           },
           "configurations": {

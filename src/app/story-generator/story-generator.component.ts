@@ -1,7 +1,7 @@
 import { afterRenderEffect, ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, Renderer2, signal, viewChild } from '@angular/core';
-import { ParserService } from '../gemini/services/parser.service';
-import { LoaderComponent } from '../shared/loader/loader.component';
-import { PromptHistoryComponent } from '../shared/prompt-history/prompt-history.component';
+import { ParserService } from '../ui/services/parser.service';
+import { LoaderComponent } from '../ui/loader/loader.component';
+import { PromptHistoryComponent } from '../ui/prompt-history/prompt-history.component';
 import { StoryService } from './services/story.service';
 import { StoryGenerateMenuBarComponent } from './story-generate-menu-bar/story-generate-menu-bar.component';
 import { StoryLength } from './types/story-length';
@@ -10,7 +10,7 @@ import { StoryLength } from './types/story-length';
   selector: 'app-story-generator',
   templateUrl: './story-generator.component.html',
   imports: [LoaderComponent, PromptHistoryComponent, StoryGenerateMenuBarComponent],
-  styleUrl: '../shared/tailwind-utilities.css',
+  styleUrl: '../ui/tailwind-utilities.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class StoryGeneratorComponent {
@@ -19,13 +19,13 @@ export default class StoryGeneratorComponent {
   private readonly renderer = inject(Renderer2);
 
   promptHistory = this.storyService.promptHistory;
+  prompt = this.storyService.prompt;
+  isLoading = this.storyService.isLoading;
+  error = this.storyService.error;
 
-  prompt = signal('A knight who is afraid of the dark.');
   storyLength = signal<StoryLength>('short');
   genre = signal('fantasy');
   story = signal('');
-  isLoading = signal(false);
-  error = signal('');
 
   storyHolder = viewChild<ElementRef<HTMLDivElement>>('storyHolder');
   storyHolderElement = computed(() => this.storyHolder()?.nativeElement);
@@ -36,8 +36,8 @@ export default class StoryGeneratorComponent {
   isGenerationDisabled = computed(() => !this.prompt().trim() || this.isLoading());
 
   constructor() {
+    this.prompt.set('A knight who is afraid of the dark');
     effect(() => {
-      console.log('Effect callback of the story generator is run.');
       const element = this.storyHolderElement();
       if (element && !this.parserService.hasParser()) {
         this.parserService.initParser(element);
@@ -68,18 +68,12 @@ export default class StoryGeneratorComponent {
       this.prompt.set(trimmedPrompt);
     }
 
-    try {
-      const params = {
-        prompt: this.prompt(),
-        lengthDescription: this.storyLength(),
-        genre: this.genre()
-      };
-      await this.storyService.generateStory(params, this.story, this.isLoading);
-      this.parserService.resetParser();
-    } catch (e: unknown) {
-      this.error.set(e instanceof Error ? e.message : 'Failed to generate story. Please try again.');
-      console.error(e);
-    }
+    const params = {
+      prompt: this.prompt(),
+      lengthDescription: this.storyLength(),
+      genre: this.genre()
+    };
+    await this.storyService.generateStory(params, this.story);
   }
 
   clearHistory(): void {

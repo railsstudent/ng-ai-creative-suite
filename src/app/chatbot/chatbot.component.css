@@ -1,0 +1,29 @@
+@reference "../../styles.css";
+
+.chatbot-message-row {
+  @apply flex mb-4;
+}
+
+.chat-message-row-header {
+  @apply flex items-start gap-2.5
+}
+
+.chat-message-row {
+  @apply flex flex-col w-full max-w-lg leading-1.5 p-4 border-gray-600
+}
+
+.chat-message-row-bot {
+  @apply bg-gray-700 rounded-e-xl rounded-es-xl
+}
+
+.chat-message-row-user {
+  @apply bg-indigo-600 rounded-s-xl rounded-ee-xl
+}
+
+.chat-avatar {
+  @apply w-8 h-8 rounded-full flex items-center justify-center font-bold text-white flex-shrink-0
+}
+
+.chat-message-text {
+  @apply text-sm font-normal
+}

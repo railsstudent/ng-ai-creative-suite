@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SpinnerIconComponent } from '../../icons/spinner-icon.component';
+import { UIStateService } from '../services/ui-state.service';
 
 @Component({
   selector: 'app-prompt-form',
@@ -9,9 +10,12 @@ import { SpinnerIconComponent } from '../../icons/spinner-icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PromptFormComponent {
+  readonly uiService = inject(UIStateService);
+
   prompt = model.required<string>();
-  isLoading = input(false);
-  isGenerationDisabled = input(false);
+
+  isLoading = this.uiService.isLoading;
+  isGenerationDisabled = this.uiService.isGenerationDisabled;
 
   generate = output<void>();
 

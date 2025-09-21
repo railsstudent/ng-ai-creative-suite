@@ -16,11 +16,11 @@ export const routes: Routes = [
   //   loadComponent: () => import('./components/video-generator/video-generator.component').then(m => m.VideoGeneratorComponent),
   //   title: 'Video Generator'
   // },
-  // {
-  //   path: 'chatbot',
-  //   loadComponent: () => import('./components/chatbot/chatbot.component').then(m => m.ChatbotComponent),
-  //   title: 'Chatbot'
-  // },
+  {
+    path: 'chatbot',
+    loadComponent: () => import('./chatbot/chatbot.component'),
+    title: 'Chatbot'
+  },
   {
     path: '',
     redirectTo: '/story-generator',

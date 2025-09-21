@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PromptFormComponent } from '../../shared/prompt-form/prompt-form.component';
+import { PromptFormComponent } from '../../ui/prompt-form/prompt-form.component';
 import { StoryOption } from '../types/story-option';
 
 @Component({
   selector: 'app-story-generate-menu-bar',
   templateUrl: './story-generate-menu-bar.component.html',
-  styleUrl: '../../shared/tailwind-utilities.css',
+  styleUrl: '../../ui/tailwind-utilities.css',
   imports: [FormsModule, PromptFormComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -19,10 +19,6 @@ export class StoryGenerateMenuBarComponent {
   // Input options for dropdowns
   storyLengthOptions = input.required<StoryOption[]>();
   genreOptions = input.required<StoryOption[]>();
-
-  // Button state inputs
-  isLoading = input(false);
-  isGenerationDisabled = input(false);
 
   // Event emitter for generating the story
   generateStory = output<void>();

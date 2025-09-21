@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, WritableSignal, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom, map } from 'rxjs';
-import { GEMINI_AI_TOKEN, GEMINI_CHAT_TOKEN } from '../constants/ai-injection-tokens.const';
+import { GEMINI_AI_TOKEN, GEMINI_CHAT_TOKEN, GEMINI_TEXT_CONFIG_TOKEN } from '../constants/ai-injection-tokens.const';
 import { GEMINI_MODEL_NAME, IMAGE_MODEL_NAME, VIDEO_MODEL_NAME } from '../constants/model-name.const';
 import { GeneratedBase64Image } from '../types/generated-image.type';
 
@@ -12,6 +12,7 @@ export class GeminiService {
   private http = inject(HttpClient);
   private readonly ai = inject(GEMINI_AI_TOKEN);
   private readonly chat = inject(GEMINI_CHAT_TOKEN);
+  private readonly genTextConfig = inject(GEMINI_TEXT_CONFIG_TOKEN);
 
   private getErrorMessage(error: unknown): string {
     console.error('Gemini API Error:', error);
@@ -49,36 +50,15 @@ export class GeminiService {
     return 'An unexpected error occurred. Please check the console for details.';
   }
 
-  async generateTextStream(prompt: string,
-    chunkSignal: WritableSignal<string>,
-    loaderSignal: WritableSignal<boolean>
-  ): Promise<void> {
+  async generateTextStream(prompt: string) {
     try {
-      loaderSignal.set(true);
-      chunkSignal.set('');
-
-      const stream = await this.ai.models.generateContentStream({
+      return await this.ai.models.generateContentStream({
         model: GEMINI_MODEL_NAME,
         contents: prompt,
-        config: {
-          maxOutputTokens: +MAX_OUTPUT_TOKEN,
-          temperature: +TEMPERATURE,
-          topK: +TOP_K,
-          topP: +TOP_P,
-        }
+        config: this.genTextConfig
       });
-
-      loaderSignal.set(false);
-
-      for await (const chunk of stream) {
-        const chunkText = chunk.candidates?.[0].content?.parts?.[0].text || '';
-        const markdownText = chunkText.replace(/\n\n/g, '<br><br>')
-        chunkSignal.set(markdownText);
-      }
     } catch (error) {
       throw new Error(this.getErrorMessage(error));
-    } finally {
-      loaderSignal.set(false);
     }
   }
 
@@ -160,6 +140,14 @@ export class GeminiService {
       const response = await this.chat.sendMessage({ message });
       const text = response.text || '';
       return text;
+    } catch (error) {
+      throw new Error(this.getErrorMessage(error));
+    }
+  }
+
+  async sendChatMessageStream(message: string) {
+    try {
+     return await this.chat.sendMessageStream({ message });
     } catch (error) {
       throw new Error(this.getErrorMessage(error));
     }
