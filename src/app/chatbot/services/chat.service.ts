@@ -1,4 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
+import DOMPurify from 'dompurify';
+import { marked } from 'marked';
 import { GeminiService } from '../../gemini/services/gemini.service';
 import { UIStateService } from '../../ui/services/ui-state.service';
 import { INITIAL_BOT_MESSAGE } from '../constants/chat.const';
@@ -11,9 +13,11 @@ export class ChatBotService  {
   private readonly uiStateService = inject(UIStateService);
 
   isLoading = this.uiStateService.isLoading;
-  #messages = signal([INITIAL_BOT_MESSAGE]);
 
+  #messages = signal([INITIAL_BOT_MESSAGE]);
   messages = this.#messages.asReadonly();
+
+  #message = signal('');
 
   async sendMessage(userMessage: string): Promise<void> {
     if (!userMessage || this.isLoading()) {
@@ -27,21 +31,33 @@ export class ChatBotService  {
     });
     this.isLoading.set(true);
 
+    const prevMessages = [...this.#messages()];
+    const newId = prevMessages.length;
+
     try {
       // Get bot response
-      const botResponse = await this.geminiService.sendChatMessage(userMessage);
-      this.#messages.update(msgs => {
-        const newId = msgs.length;
-        return [...msgs, { id: newId, sender: 'bot', text: botResponse }];
-      });
+      const botStream = await this.geminiService.sendChatMessageStream(userMessage);
+
+      this.isLoading.set(false);
+
+      for await (const chunk of botStream) {
+        const chunkText = chunk.candidates?.[0].content?.parts?.[0].text || '';
+        DOMPurify.sanitize(this.#message() + chunkText);
+        if (DOMPurify.removed.length) {
+          throw new Error('Received unsafe content. Aborting.');
+        }
+
+        this.#message.update((prev) => prev + chunkText);
+      }
+
+      const parsedMarkdown = await marked.parse(this.#message());
+      this.#messages.set([...prevMessages, { id: newId, sender: 'bot', text: parsedMarkdown }]);
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : 'Sorry, I encountered an error. Please try again.';
-      this.#messages.update(msgs => {
-        const newId = msgs.length;
-        return [...msgs, { id: newId, sender: 'bot', text: errorMessage }];
-      });
+      this.#messages.set([...prevMessages, { id: newId, sender: 'bot', text: errorMessage }]);
     } finally {
       this.isLoading.set(false);
+      this.#message.set('');
     }
   }
 

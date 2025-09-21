@@ -5,7 +5,7 @@
         <div class="chat-message-row-header">
           <div class="bg-indigo-500 chat-avatar">A</div>
           <div class="chat-message-row chat-message-row-bot">
-            <p class="chat-message-text text-gray-200">{{ message.text }}</p>
+            <div class="chat-message-text text-gray-200" [innerHTML]="message.text"></div>
           </div>
         </div>
       }
@@ -24,6 +24,8 @@
       <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center font-bold text-white flex-shrink-0">A</div>
       <div class="chat-message-row chat-message-row-bot">
         <div class="flex items-center space-x-2 h-6">
+          <div class="w-2 h-2 bg-indigo-300 rounded-full animate-pulse [animation-delay:-0.6s]"></div>
+          <div class="w-2 h-2 bg-indigo-300 rounded-full animate-pulse [animation-delay:-0.45s]"></div>
           <div class="w-2 h-2 bg-indigo-300 rounded-full animate-pulse [animation-delay:-0.3s]"></div>
           <div class="w-2 h-2 bg-indigo-300 rounded-full animate-pulse [animation-delay:-0.15s]"></div>
           <div class="w-2 h-2 bg-indigo-300 rounded-full animate-pulse"></div>

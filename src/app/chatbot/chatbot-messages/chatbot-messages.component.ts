@@ -17,6 +17,6 @@ export class ChatbotMessagesComponent {
   hostElement = inject(ElementRef);
 
   scrollToTop() {
-
+    this.nativeElement().scrollTop = this.nativeElement().scrollHeight;
   }
 }
