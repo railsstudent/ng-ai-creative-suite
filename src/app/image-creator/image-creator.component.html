@@ -5,14 +5,12 @@
   <div class="bg-gray-800 rounded-lg shadow-xl p-6">
     <app-image-menu-bar
       [(prompt)]="prompt"
-      [isLoading]="isLoading()"
-      [isGenerationDisabled]="isGenerationDisabled()"
-      (generateImage)="generateImage()"
       [(numberOfImages)]="numberOfImages"
       [(aspectRatio)]="aspectRatio"
       [(enableVideoGeneration)]="enableVideoGeneration"
       [isGeneratingVideo]="videoPlayer()?.isGeneratingVideo() ?? false"
       [isGenerateVideoDisabled]="videoPlayer()?.isGenerateVideoDisabled() ?? true"
+      (generateImage)="generateImage()"
       (generateVideo)="onGenerateVideo()"
     />
   </div>

@@ -20,10 +20,6 @@ export class ImageMenuBarComponent {
   readonly imageCountOptions = [1, 2, 3, 4];
   readonly aspectRatioOptions = ["1:1", "3:4", "4:3", "9:16", "16:9"];
 
-  // Image generation button state
-  isLoading = input(false);
-  isGenerationDisabled = input(false);
-
   // Video generation button state
   isGeneratingVideo = input(false);
   isGenerateVideoDisabled = input(false);

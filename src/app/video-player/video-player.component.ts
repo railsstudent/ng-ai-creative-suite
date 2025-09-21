@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { GeminiService } from '../gemini/services/gemini.service';
 import { LoaderComponent } from '../ui/loader/loader.component';
+import { Image } from '../image-creator/types/image.type';
 
 @Component({
   selector: 'app-video-player',
@@ -12,7 +13,7 @@ export class VideoPlayerComponent {
   private geminiService = inject(GeminiService);
 
   prompt = input('');
-  selectedImage = input<{ id: number; url: string } | null>(null);
+  selectedImage = input<Image | null>(null);
   isImageLoading = input(false);
 
   isGeneratingVideo = signal(false);
