@@ -1,4 +1,3 @@
-import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../ui/confirmation-dialog/confirmation-dialog.component';
@@ -25,7 +24,6 @@ import { ImageDownloadEvent } from './types/image.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ImageCreatorComponent {
-  private document = inject(DOCUMENT);
   private imageService = inject(ImageService);
 
   imageUrls = signal<{ id: number; url: string }[]>([]);
