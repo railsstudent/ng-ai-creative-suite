@@ -6,11 +6,11 @@ export const routes: Routes = [
     loadComponent: () => import('./story-generator/story-generator.component'),
     title: 'Story Generator'
   },
-  // {
-  //   path: 'image-creator',
-  //   loadComponent: () => import('./components/image-creator/image-creator.component').then(m => m.ImageCreatorComponent),
-  //   title: 'Image Creator'
-  // },
+  {
+    path: 'image-creator',
+    loadComponent: () => import('./image-creator/image-creator.component'),
+    title: 'Image Creator'
+  },
   // {
   //   path: 'video-generator',
   //   loadComponent: () => import('./components/video-generator/video-generator.component').then(m => m.VideoGeneratorComponent),

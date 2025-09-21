@@ -1,0 +1,24 @@
+<div class="relative group bg-gray-800 rounded-lg p-2 shadow-xl">
+  <img [src]="image().url" [alt]="'Generated Image ' + (index() + 1)" class="rounded-md w-full h-auto object-contain transition-opacity group-hover:opacity-75" />
+  <div class="absolute inset-0 rounded-lg" [class.cursor-pointer]="enableSelection()" (click)="onSelectImage()"></div>
+  
+  <button 
+    (click)="onDownloadImage($event)"
+    title="Download Image"
+    class="absolute top-4 left-4 bg-gray-900 bg-opacity-75 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500">
+    <app-download-icon />
+  </button>
+  
+  @if (enableSelection()) {
+      <div class="absolute top-4 right-4 h-6 w-6 rounded-full flex items-center justify-center bg-gray-900 bg-opacity-75 transition-opacity pointer-events-none" 
+          [class.opacity-100]="isSelected()" 
+          [class.opacity-0]="!isSelected()" 
+          [class.group-hover:opacity-100]="!isSelected()">
+          @if (isSelected()) {
+              <app-check-icon />
+          } @else {
+               <div class="h-5 w-5 rounded-full border-2 border-white"></div>
+          }
+      </div>
+  }
+</div>

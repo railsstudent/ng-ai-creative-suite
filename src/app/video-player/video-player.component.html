@@ -1,0 +1,19 @@
+@if (isGeneratingVideo()) {
+  <div class="mt-6">
+    <app-loader loadingText="Generating your video...">
+      <p class="text-sm">This can take several minutes. Please be patient.</p>
+    </app-loader>
+  </div>
+} @else if (videoUrl()) {
+  <div class="mt-6 bg-gray-800 rounded-lg shadow-xl p-4">
+    <h2 class="text-2xl font-bold text-green-400 mb-4">Your Generated Video</h2>
+    <video [src]="videoUrl()" controls autoplay loop class="w-full rounded-md"></video>
+  </div>
+}
+
+@if (videoError()) {
+  <div class="mt-6 bg-red-900 border border-red-700 text-red-200 px-4 py-3 rounded-lg relative" role="alert">
+    <strong class="font-bold">Error:</strong>
+    <span class="block sm:inline ml-2">{{ videoError() }}</span>
+  </div>
+}
