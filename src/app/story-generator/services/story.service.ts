@@ -1,8 +1,8 @@
 import { inject, Injectable, WritableSignal } from '@angular/core';
 import { GeminiService } from '../../gemini/services/gemini.service';
 import { ParserService } from '../../ui/services/parser.service';
+import { PromptFormService } from '../../ui/services/prompt-form.service';
 import { PromptHistoryService } from '../../ui/services/prompt-history.service';
-import { UIStateService } from '../../ui/services/ui-state.service';
 import { StoryOption } from '../types/story-option';
 import { StoryParams } from '../types/story-params';
 
@@ -12,7 +12,7 @@ import { StoryParams } from '../types/story-params';
 export class StoryService {
   private readonly geminiService = inject(GeminiService);
   private readonly promptHistoryService = inject(PromptHistoryService);
-  private readonly uiStateService = inject(UIStateService);
+  private readonly uiStateService = inject(PromptFormService);
   private readonly parserService = inject(ParserService);
 
   private readonly historyKey = 'story';

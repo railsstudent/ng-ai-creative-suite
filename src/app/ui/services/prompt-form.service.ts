@@ -3,7 +3,7 @@ import { computed, Injectable, signal } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class UIStateService {
+export class PromptFormService {
   prompt = signal('');
   error = signal('');
   isLoading = signal(false);
