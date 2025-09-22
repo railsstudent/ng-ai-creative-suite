@@ -16,6 +16,7 @@ export class VideoPlayerComponent {
   prompt = input('');
   selectedImage = input<Image | null>(null);
   isImageLoading = input(false);
+  showHeader = input(false);
 
   isGeneratingVideo = signal(false);
   videoUrl = input.required<string>();
