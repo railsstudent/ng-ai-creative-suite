@@ -1,7 +1,6 @@
 import { EnvironmentProviders, inject, makeEnvironmentProviders } from '@angular/core';
 import { GoogleGenAI } from '@google/genai';
 import { GEMINI_AI_TOKEN, GEMINI_CHAT_TOKEN, GEMINI_TEXT_CONFIG_TOKEN } from '../constants/ai-injection-tokens.const';
-import { GEMINI_MODEL_NAME } from '../constants/model-name.const';
 
 export function provideGoogleGeminiAi(): EnvironmentProviders {
   return makeEnvironmentProviders([
@@ -29,7 +28,7 @@ export function provideGoogleGeminiAi(): EnvironmentProviders {
       useFactory: () => {
         const ai = inject(GEMINI_AI_TOKEN);
         return ai.chats.create({
-          model: GEMINI_MODEL_NAME,
+          model: GEMINI_MODEL_NAME || 'gemini-2.5-flash',
           config: {
             systemInstruction: 'You are a helpful and creative assistant. Please provide answers, maximum 250 words.',
             temperature: +TEMPERATURE,

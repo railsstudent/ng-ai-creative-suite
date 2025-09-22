@@ -43,7 +43,10 @@
               "TEMPERATURE": "0.3",
               "TOP_K": "40",
               "TOP_P": "0.75",
-              "CHAT_MAX_OUTPUT_TOKEN": "2048"
+              "CHAT_MAX_OUTPUT_TOKEN": "2048",
+              "VIDEO_MODEL_NAME": "\"veo-3.0-generate-001\"",
+              "IMAGE_MODEL_NAME": "\"imagen-4.0-generate-001\"",
+              "GEMINI_MODEL_NAME": "\"gemini-2.5-flash\""
             }
           },
           "configurations": {

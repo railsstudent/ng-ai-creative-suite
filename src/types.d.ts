@@ -4,3 +4,6 @@ declare const TEMPERATURE: string;
 declare const TOP_K: string;
 declare const TOP_P: string;
 declare const CHAT_MAX_OUTPUT_TOKEN: string;
+declare const VIDEO_MODEL_NAME: string;
+declare const IMAGE_MODEL_NAME: string;
+declare const GEMINI_MODEL_NAME: string;

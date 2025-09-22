@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom, map } from 'rxjs';
 import { GEMINI_AI_TOKEN, GEMINI_CHAT_TOKEN, GEMINI_TEXT_CONFIG_TOKEN } from '../constants/ai-injection-tokens.const';
-import { GEMINI_MODEL_NAME, IMAGE_MODEL_NAME, VIDEO_MODEL_NAME } from '../constants/model-name.const';
 import { GeneratedBase64Image } from '../types/generated-image.type';
 
 @Injectable({
@@ -53,7 +52,7 @@ export class GeminiService {
   async generateTextStream(prompt: string) {
     try {
       return await this.ai.models.generateContentStream({
-        model: GEMINI_MODEL_NAME,
+        model: GEMINI_MODEL_NAME || 'gemini-2.5-flash',
         contents: prompt,
         config: this.genTextConfig
       });
@@ -65,7 +64,7 @@ export class GeminiService {
   async generateImages(prompt: string, numberOfImages: number, aspectRatio: string): Promise<GeneratedBase64Image[]> {
     try {
       const response = await this.ai.models.generateImages({
-          model: IMAGE_MODEL_NAME,
+          model: IMAGE_MODEL_NAME || 'imagen-4.0-generate-001',
           prompt,
           config: {
               numberOfImages,
@@ -94,7 +93,7 @@ export class GeminiService {
   async generateVideo(prompt: string, imageBytes?: string): Promise<string | null> {
     try {
         const defaultRequest = {
-            model: VIDEO_MODEL_NAME,
+            model: VIDEO_MODEL_NAME || 'veo-3.0-generate-001',
             prompt,
             config: {
                 numberOfVideos: 1
