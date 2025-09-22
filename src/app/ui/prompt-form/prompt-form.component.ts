@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SpinnerIconComponent } from '../../icons/spinner-icon.component';
-import { UIStateService } from '../services/ui-state.service';
+import { PromptFormService } from '../services/prompt-form.service';
 
 @Component({
   selector: 'app-prompt-form',
@@ -10,7 +10,7 @@ import { UIStateService } from '../services/ui-state.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PromptFormComponent {
-  readonly uiService = inject(UIStateService);
+  readonly uiService = inject(PromptFormService);
 
   prompt = model.required<string>();
   placeholderText = input('e.g., A detective who can talk to plants.');

@@ -1,8 +1,8 @@
 import { DOCUMENT, inject, Injectable } from '@angular/core';
 import { GeminiService } from '../../gemini/services/gemini.service';
 import { GeneratedBase64Image } from '../../gemini/types/generated-image.type';
+import { PromptFormService } from '../../ui/services/prompt-form.service';
 import { PromptHistoryService } from '../../ui/services/prompt-history.service';
-import { UIStateService } from '../../ui/services/ui-state.service';
 import { ImageParams } from '../types/image-params.type';
 import { ImageDownloadEvent } from '../types/image.type';
 
@@ -12,7 +12,7 @@ import { ImageDownloadEvent } from '../types/image.type';
 export class ImageService {
   private readonly geminiService = inject(GeminiService);
   private readonly promptHistoryService = inject(PromptHistoryService);
-  private readonly uiStateService = inject(UIStateService);
+  private readonly uiStateService = inject(PromptFormService);
   private readonly document = inject(DOCUMENT);
 
   private readonly historyKey = 'image';
