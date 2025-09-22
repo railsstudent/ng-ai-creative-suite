@@ -12,23 +12,23 @@
   <!-- Bottom row: Settings -->
   <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
     <div>
-      <label for="image-count" class="block text-sm font-medium text-gray-300 mb-1">Number of images</label>
-      <select id="image-count" [(ngModel)]="numberOfImages" class="w-full bg-gray-700 text-gray-200 border border-gray-600 rounded-md py-2 px-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200">
+      <label for="image-count" class="story-label">Number of images</label>
+      <select id="image-count" [(ngModel)]="numberOfImages" class="ai-dropdown">
         @for (count of imageCountOptions; track count) {
           <option [ngValue]="count">{{ count }}</option>
         }
       </select>
     </div>
     <div>
-      <label for="aspect-ratio" class="block text-sm font-medium text-gray-300 mb-1">Aspect Ratio</label>
-      <select id="aspect-ratio" [(ngModel)]="aspectRatio" class="w-full bg-gray-700 text-gray-200 border border-gray-600 rounded-md py-2 px-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200">
+      <label for="aspect-ratio" class="story-label">Aspect Ratio</label>
+      <select id="aspect-ratio" [(ngModel)]="aspectRatio" class="ai-dropdown">
         @for (ratio of aspectRatioOptions; track ratio) {
           <option [ngValue]="ratio">{{ ratio }}</option>
         }
       </select>
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-300 mb-1">Video Generation</label>
+      <label class="story-label">Video Generation</label>
       <div class="flex items-center gap-4 h-full">
         <label for="video-toggle" class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="video-toggle" class="sr-only peer" [(ngModel)]="enableVideoGeneration">

@@ -1,9 +1,9 @@
 import { DOCUMENT, inject, Injectable } from '@angular/core';
+import { GenerateImagesConfig } from '@google/genai';
 import { GeminiService } from '../../gemini/services/gemini.service';
 import { GeneratedBase64Image } from '../../gemini/types/generated-image.type';
 import { PromptFormService } from '../../ui/services/prompt-form.service';
 import { PromptHistoryService } from '../../ui/services/prompt-history.service';
-import { ImageParams } from '../types/image-params.type';
 import { ImageDownloadEvent } from '../types/image.type';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class ImageService {
   readonly prompt = this.promptFormService.prompt;
   readonly error = this.promptFormService.error;
 
-  async generateImages({ numImages, aspectRatio }: ImageParams): Promise<GeneratedBase64Image[]> {
+  async generateImages(config: GenerateImagesConfig): Promise<GeneratedBase64Image[]> {
 
     this.isLoading.set(true);
     this.error.set('');
@@ -31,7 +31,7 @@ export class ImageService {
     this.promptHistoryService.addPrompt(this.historyKey, this.prompt());
 
     try {
-      const result = await this.geminiService.generateImages(this.prompt(), numImages, aspectRatio);
+      const result = await this.geminiService.generateImages(this.prompt(), config);
       if (result.length === 0) {
         this.error.set('Failed to generate image. The prompt may have been blocked by safety filters.');
         return [];

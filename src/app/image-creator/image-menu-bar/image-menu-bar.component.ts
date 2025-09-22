@@ -7,6 +7,7 @@ import { PromptFormComponent } from '../../ui/prompt-form/prompt-form.component'
   selector: 'app-image-menu-bar',
   templateUrl: './image-menu-bar.component.html',
   imports: [FormsModule, SpinnerIconComponent, PromptFormComponent],
+  styleUrl: '../../ui/tailwind-utilities.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageMenuBarComponent {

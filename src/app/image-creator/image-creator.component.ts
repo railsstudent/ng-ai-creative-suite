@@ -74,7 +74,7 @@ export default class ImageCreatorComponent {
     }
 
     const result = await this.imageService.generateImages(
-      { numImages: this.numberOfImages(), aspectRatio: this.aspectRatio() }
+      { numberOfImages: this.numberOfImages(), aspectRatio: this.aspectRatio() }
     );
     this.imageUrls.set(result);
   }
