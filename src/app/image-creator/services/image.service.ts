@@ -12,16 +12,16 @@ import { ImageDownloadEvent } from '../types/image.type';
 export class ImageService {
   private readonly geminiService = inject(GeminiService);
   private readonly promptHistoryService = inject(PromptHistoryService);
-  private readonly uiStateService = inject(PromptFormService);
+  private readonly promptFormService = inject(PromptFormService);
   private readonly document = inject(DOCUMENT);
 
   private readonly historyKey = 'image';
 
   readonly promptHistory = this.promptHistoryService.getHistory(this.historyKey).asReadonly();
-  readonly isLoading = this.uiStateService.isLoading;
-  readonly isGenerationDisabled = this.uiStateService.isGenerationDisabled;
-  readonly prompt = this.uiStateService.prompt;
-  readonly error = this.uiStateService.error;
+  readonly isLoading = this.promptFormService.isLoading;
+  readonly isGenerationDisabled = this.promptFormService.isGenerationDisabled;
+  readonly prompt = this.promptFormService.prompt;
+  readonly error = this.promptFormService.error;
 
   async generateImages({ numImages, aspectRatio }: ImageParams): Promise<GeneratedBase64Image[]> {
 

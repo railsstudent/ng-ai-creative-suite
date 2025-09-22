@@ -21,6 +21,7 @@ import { ImageDownloadEvent } from './types/image.type';
     PromptHistoryComponent,
     ConfirmationDialogComponent,
   ],
+  styleUrls: ['../ui/tailwind-utilities.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ImageCreatorComponent {

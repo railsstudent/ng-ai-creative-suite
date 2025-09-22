@@ -12,16 +12,16 @@ import { StoryParams } from '../types/story-params';
 export class StoryService {
   private readonly geminiService = inject(GeminiService);
   private readonly promptHistoryService = inject(PromptHistoryService);
-  private readonly uiStateService = inject(PromptFormService);
+  private readonly promptFormService = inject(PromptFormService);
   private readonly parserService = inject(ParserService);
 
   private readonly historyKey = 'story';
 
   readonly promptHistory = this.promptHistoryService.getHistory(this.historyKey).asReadonly();
-  readonly isLoading = this.uiStateService.isLoading;
-  readonly isGenerationDisabled = this.uiStateService.isGenerationDisabled;
-  readonly prompt = this.uiStateService.prompt;
-  readonly error = this.uiStateService.error;
+  readonly isLoading = this.promptFormService.isLoading;
+  readonly isGenerationDisabled = this.promptFormService.isGenerationDisabled;
+  readonly prompt = this.promptFormService.prompt;
+  readonly error = this.promptFormService.error;
 
   getStoryLengthOptions(): StoryOption[] {
     return [
