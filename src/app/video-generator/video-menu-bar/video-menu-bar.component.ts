@@ -14,12 +14,10 @@ export class VideoMenuBarComponent {
   prompt = model.required<string>();
   numberOfVideos = model<number>();
   aspectRatio = model<string>();
-  // resolution = model<string>();
 
   // Input options are now defined here
   readonly imageCountOptions = [1, 2, 3, 4];
   readonly aspectRatioOptions = ["16:9"];
-  readonly resolutionOptions = ["720p"];
 
   // Event emitters
   generateVideo = output<void>();
