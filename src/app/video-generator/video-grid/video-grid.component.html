@@ -1,0 +1,16 @@
+@let videos = videoInputs();
+@if (videos.length > 0) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    @for (video of videos; track video.id) {
+      <app-video-player [videoUrl]="video.url"  />
+    }
+  </div>
+} @else {
+  <div class="w-full h-48 bg-gray-800 rounded-lg flex flex-col justify-center items-center text-gray-500 border-2 border-dashed border-gray-700">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h8a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4a2 2 0 012-2z" />
+      <path stroke-linecap="round" stroke-linejoin="round" d="M16 9l4-2v8l-4-2v-4z" />
+    </svg>
+    <p class="text-lg">Your generated videos will appear here.</p>
+  </div>
+}

@@ -1,0 +1,39 @@
+<div class="flex flex-col gap-4">
+  <!-- Top row: Prompt and Generate Button -->
+  <app-prompt-form
+      [(prompt)]="prompt"
+      (generate)="generateVideo.emit()"
+      placeholderText="e.g., An astronaut riding a horse on Mars, cinematic."
+    >
+      <span button-text>Generate Video</span>
+      <span loading-text>Generating...</span>
+  </app-prompt-form>
+
+  <!-- Bottom row: Settings -->
+  <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+    <div>
+      <label for="video-count" class="story-label">Number of videos</label>
+      <select id="video-count" [(ngModel)]="numberOfVideos" class="ai-dropdown">
+        @for (count of imageCountOptions; track count) {
+          <option [ngValue]="count">{{ count }}</option>
+        }
+      </select>
+    </div>
+    <div>
+      <label for="aspect-ratio" class="story-label">Aspect Ratio</label>
+      <select id="aspect-ratio" [(ngModel)]="aspectRatio" class="ai-dropdown">
+        @for (ratio of aspectRatioOptions; track ratio) {
+          <option [ngValue]="ratio">{{ ratio }}</option>
+        }
+      </select>
+    </div>
+    <!-- <div>
+      <label for="resolution" class="story-label">Resolution</label>
+      <select id="resolution" [(ngModel)]="resolution" class="ai-dropdown">
+        @for (res of resolutionOptions; track res) {
+          <option [ngValue]="res">{{ res }}</option>
+        }
+      </select>
+    </div> -->
+  </div>
+</div>

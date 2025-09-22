@@ -5,11 +5,17 @@ import { PromptHistoryComponent } from '../ui/prompt-history/prompt-history.comp
 import { StoryService } from './services/story.service';
 import { StoryGenerateMenuBarComponent } from './story-generate-menu-bar/story-generate-menu-bar.component';
 import { StoryLength } from './types/story-length';
+import { ErrorDisplayComponent } from '../ui/error-display/error-display.component';
 
 @Component({
   selector: 'app-story-generator',
   templateUrl: './story-generator.component.html',
-  imports: [LoaderComponent, PromptHistoryComponent, StoryGenerateMenuBarComponent],
+  imports: [
+    ErrorDisplayComponent,
+    LoaderComponent,
+    PromptHistoryComponent,
+    StoryGenerateMenuBarComponent
+  ],
   styleUrl: '../ui/tailwind-utilities.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

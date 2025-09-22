@@ -11,11 +11,11 @@ export const routes: Routes = [
     loadComponent: () => import('./image-creator/image-creator.component'),
     title: 'Image Creator'
   },
-  // {
-  //   path: 'video-generator',
-  //   loadComponent: () => import('./components/video-generator/video-generator.component').then(m => m.VideoGeneratorComponent),
-  //   title: 'Video Generator'
-  // },
+  {
+    path: 'video-generator',
+    loadComponent: () => import('./video-generator/video-generator.component'),
+    title: 'Video Generator'
+  },
   {
     path: 'chatbot',
     loadComponent: () => import('./chatbot/chatbot.component'),

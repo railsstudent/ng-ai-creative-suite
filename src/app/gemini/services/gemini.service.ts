@@ -3,9 +3,10 @@ import { Injectable, inject } from '@angular/core';
 import { GenerateImagesConfig, GenerateVideosConfig, GenerateVideosParameters } from '@google/genai';
 import { firstValueFrom, forkJoin, map } from 'rxjs';
 import { GEMINI_AI_TOKEN, GEMINI_CHAT_TOKEN, GEMINI_TEXT_CONFIG_TOKEN } from '../constants/ai-injection-tokens.const';
-import { GeneratedBase64Image } from '../types/generated-image.type';
+import { GeneratedData } from '../types/generated-image.type';
 
 const POLLING_PERIOD = 10000;
+const apiKey = GEMINI_API_KEY;
 
 @Injectable({
   providedIn: 'root',
@@ -64,7 +65,7 @@ export class GeminiService {
     }
   }
 
-  async generateImages(prompt: string, config: GenerateImagesConfig): Promise<GeneratedBase64Image[]> {
+  async generateImages(prompt: string, config: GenerateImagesConfig): Promise<GeneratedData[]> {
     try {
       const response = await this.ai.models.generateImages({
           model: IMAGE_MODEL_NAME || 'imagen-4.0-generate-001',
@@ -86,7 +87,7 @@ export class GeminiService {
           id,
           url: `data:image/png;base64,${img.image.imageBytes}`,
         });
-      }, [] as GeneratedBase64Image[]);
+      }, [] as GeneratedData[]);
     } catch (error) {
         throw new Error(this.getErrorMessage(error));
     }
@@ -101,7 +102,7 @@ export class GeminiService {
 
       for (let i = 0; i < numberOfVideos; i++) {
         const request: GenerateVideosParameters = {
-          model: VIDEO_MODEL_NAME || 'veo-3.0-generate-001',
+          model: VIDEO_MODEL_NAME || 'veo-2.0-generate-001',
           prompt,
           config: { ...config, numberOfVideos: 1 },
           ...image
@@ -126,7 +127,7 @@ export class GeminiService {
       }
 
       const blobUrls$ = forkJoin(downloadLinks.map((downloadLink) =>
-          this.http.get(downloadLink, {
+          this.http.get(`${downloadLink}&key=${apiKey}`, {
             responseType: 'blob'
           }).pipe(
             map((blob) => URL.createObjectURL(blob))

@@ -2,12 +2,13 @@ import { EnvironmentProviders, inject, makeEnvironmentProviders } from '@angular
 import { GoogleGenAI } from '@google/genai';
 import { GEMINI_AI_TOKEN, GEMINI_CHAT_TOKEN, GEMINI_TEXT_CONFIG_TOKEN } from '../constants/ai-injection-tokens.const';
 
+const apiKey = GEMINI_API_KEY;
+
 export function provideGoogleGeminiAi(): EnvironmentProviders {
   return makeEnvironmentProviders([
     {
       provide: GEMINI_AI_TOKEN,
       useFactory: () => {
-        const apiKey = GEMINI_API_KEY ?? '';
         if (!apiKey) {
           console.error("API_KEY is not set. Please ensure it's available in the environment.");
         }

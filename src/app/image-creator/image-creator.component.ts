@@ -9,6 +9,7 @@ import { ImageGridComponent } from './image-grid/image-grid.component';
 import { ImageMenuBarComponent } from './image-menu-bar/image-menu-bar.component';
 import { ImageService } from './services/image.service';
 import { ImageDownloadEvent } from './types/image.type';
+import { ErrorDisplayComponent } from '../ui/error-display/error-display.component';
 
 @Component({
   selector: 'app-image-creator',
@@ -16,11 +17,12 @@ import { ImageDownloadEvent } from './types/image.type';
   imports: [
     FormsModule,
     LoaderComponent,
-    VideoPlayerComponent,
+    // VideoPlayerComponent,
     ImageGridComponent,
     ImageMenuBarComponent,
     PromptHistoryComponent,
     ConfirmationDialogComponent,
+    ErrorDisplayComponent,
   ],
   styleUrls: ['../ui/tailwind-utilities.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -105,7 +107,7 @@ export default class ImageCreatorComponent {
   }
 
   onGenerateVideo(): void {
-    this.videoPlayer()?.generateVideo();
+    // this.videoPlayer()?.generateVideo();
   }
 
   clearHistory(): void {
