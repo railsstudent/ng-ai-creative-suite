@@ -1,4 +1,4 @@
-export type GeneratedBase64Image = {
+export type GeneratedData = {
   id: number;
   url: string;
 }

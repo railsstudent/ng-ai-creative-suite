@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { GeneratedData } from '../gemini/types/generated-image.type';
 import { ConfirmationDialogComponent } from '../ui/confirmation-dialog/confirmation-dialog.component';
 import { LoaderComponent } from '../ui/loader/loader.component';
 import { PromptHistoryComponent } from '../ui/prompt-history/prompt-history.component';
@@ -27,7 +28,7 @@ import { ImageDownloadEvent } from './types/image.type';
 export default class ImageCreatorComponent {
   private imageService = inject(ImageService);
 
-  imageUrls = signal<{ id: number; url: string }[]>([]);
+  imageUrls = signal<GeneratedData[]>([]);
 
   promptHistory = this.imageService.promptHistory;
   prompt = this.imageService.prompt;
@@ -73,10 +74,10 @@ export default class ImageCreatorComponent {
         this.prompt.set(trimmedPrompt);
     }
 
-    const result = await this.imageService.generateImages(
+    const images = await this.imageService.generateImages(
       { numberOfImages: this.numberOfImages(), aspectRatio: this.aspectRatio() }
     );
-    this.imageUrls.set(result);
+    this.imageUrls.set(images);
   }
 
   selectImage(id: number): void {

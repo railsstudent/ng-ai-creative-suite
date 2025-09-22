@@ -1,7 +1,7 @@
 import { DOCUMENT, inject, Injectable } from '@angular/core';
 import { GenerateImagesConfig } from '@google/genai';
 import { GeminiService } from '../../gemini/services/gemini.service';
-import { GeneratedBase64Image } from '../../gemini/types/generated-image.type';
+import { GeneratedData } from '../../gemini/types/generated-image.type';
 import { PromptFormService } from '../../ui/services/prompt-form.service';
 import { PromptHistoryService } from '../../ui/services/prompt-history.service';
 import { ImageDownloadEvent } from '../types/image.type';
@@ -23,7 +23,7 @@ export class ImageService {
   readonly prompt = this.promptFormService.prompt;
   readonly error = this.promptFormService.error;
 
-  async generateImages(config: GenerateImagesConfig): Promise<GeneratedBase64Image[]> {
+  async generateImages(config: GenerateImagesConfig): Promise<GeneratedData[]> {
 
     this.isLoading.set(true);
     this.error.set('');
@@ -31,13 +31,13 @@ export class ImageService {
     this.promptHistoryService.addPrompt(this.historyKey, this.prompt());
 
     try {
-      const result = await this.geminiService.generateImages(this.prompt(), config);
-      if (result.length === 0) {
-        this.error.set('Failed to generate image. The prompt may have been blocked by safety filters.');
+      const results = await this.geminiService.generateImages(this.prompt(), config);
+      if (results.length === 0) {
+        this.error.set('Failed to generate images. The prompt may have been blocked by safety filters.');
         return [];
       }
 
-      return result;
+      return results;
     } catch (e: unknown) {
       this.error.set(e instanceof Error ? e.message : 'An unexpected error occurred. Please try again.');
       console.error(e);
