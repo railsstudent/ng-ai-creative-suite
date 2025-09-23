@@ -16,7 +16,7 @@ export class VideoMenuBarComponent {
   aspectRatio = model<string>();
 
   // Input options are now defined here
-  readonly imageCountOptions = [1, 2];
+  readonly imageCountOptions = [1, 2, 3, 4];
   readonly aspectRatioOptions = ["16:9"];
 
   // Event emitters

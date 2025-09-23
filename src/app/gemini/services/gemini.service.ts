@@ -98,11 +98,11 @@ export class GeminiService {
       const image = imageBytes ? { image: { imageBytes, mimeType: 'image/png' } } : undefined;
       const numberOfVideos = config.numberOfVideos || 1;
 
-      const downloadLinks: string[] = [];
-
-      for (let i = 0; i < numberOfVideos; i++) {
+      const ranges: number[] = Array(numberOfVideos).fill(1);
+      const model = VIDEO_MODEL_NAME || 'veo-2.0-generate-001';
+      const downloadLinks = await ranges.reduce(async (prev) => {
         const request: GenerateVideosParameters = {
-          model: VIDEO_MODEL_NAME || 'veo-2.0-generate-001',
+          model,
           prompt,
           config: { ...config, numberOfVideos: 1 },
           ...image
@@ -114,16 +114,17 @@ export class GeminiService {
           operation = await this.ai.operations.getVideosOperation({ operation });
         }
 
+        const acc = await prev;
         const downloadLink = operation.response?.generatedVideos?.[0]?.video?.uri;
         if (!downloadLink) {
             console.error('Video generation finished but no download link was provided.');
-        } else {
-            downloadLinks.push(downloadLink);
         }
-      }
+
+        return downloadLink ? acc.concat(downloadLink) : acc;
+      }, Promise.resolve([]) as Promise<string[]>);
 
       if (!downloadLinks.length) {
-        return [] as string[];
+        return downloadLinks;
       }
 
       const blobUrls$ = forkJoin(downloadLinks.map((downloadLink) =>
