@@ -56,7 +56,7 @@ export class GeminiService {
   async generateTextStream(prompt: string) {
     try {
       return await this.ai.models.generateContentStream({
-        model: GEMINI_MODEL_NAME || 'gemini-2.5-flash',
+        model: GEMINI_MODEL_NAME || 'gemini-2.5-flash-lite',
         contents: prompt,
         config: this.genTextConfig
       });

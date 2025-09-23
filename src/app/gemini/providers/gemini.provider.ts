@@ -29,7 +29,7 @@ export function provideGoogleGeminiAi(): EnvironmentProviders {
       useFactory: () => {
         const ai = inject(GEMINI_AI_TOKEN);
         return ai.chats.create({
-          model: GEMINI_MODEL_NAME || 'gemini-2.5-flash',
+          model: GEMINI_MODEL_NAME || 'gemini-2.5-flash-lite',
           config: {
             systemInstruction: 'You are a helpful and creative assistant. Please provide answers, maximum 250 words.',
             temperature: +TEMPERATURE,
