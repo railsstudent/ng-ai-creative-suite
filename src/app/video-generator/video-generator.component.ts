@@ -28,8 +28,8 @@ export default class VideoGeneratorComponent {
   prompt = this.videoService.prompt;
   promptHistory = this.videoService.promptHistory;
   isGenerationDisabled = this.videoService.isGenerationDisabled;
-  isLoading = this.videoService.isLoading;
-  error = this.videoService.error;
+  isLoading = this.videoService.isGeneratingVideo;
+  error = this.videoService.videoError;
 
   numberOfVideos = signal(1);
   aspectRatio = signal('16:9');

@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { GenerateVideosConfig } from '@google/genai';
 import { GeminiService } from '../../gemini/services/gemini.service';
 import { GeneratedData } from '../../gemini/types/generated-image.type';
@@ -21,27 +21,36 @@ export class VideoService {
   readonly prompt = this.promptFormService.prompt;
   readonly error = this.promptFormService.error;
 
-  async generateVideosFromPrompt(config: GenerateVideosConfig): Promise<GeneratedData[]> {
+  videoError = signal('');
+  isGeneratingVideo = signal(false);
 
-    this.isLoading.set(true);
-    this.error.set('');
+  async generateVideosFromPrompt(config: GenerateVideosConfig): Promise<GeneratedData[]> {
+    return this.generateVideosFromImage(config)
+  }
+
+  async generateVideosFromImage(
+    config: GenerateVideosConfig,
+    imageBytes: string | undefined = undefined
+  ): Promise<GeneratedData[]> {
+    this.isGeneratingVideo.set(true);
+    this.videoError.set('');
 
     this.promptHistoryService.addPrompt(this.historyKey, this.prompt());
 
     try {
-      const results = await this.geminiService.generateVideos(this.prompt(), config);
+      const results = await this.geminiService.generateVideos(this.prompt(), config, imageBytes);
       if (results.length === 0) {
-        this.error.set('Failed to generate videos. The prompt may have been blocked by safety filters.');
+        this.videoError.set('Failed to generate videos. The prompt may have been blocked by safety filters.');
         return [];
       }
 
       return results.map((url, id) => ({ id, url }));
     } catch (e: unknown) {
-      this.error.set(e instanceof Error ? e.message : 'An unexpected error occurred. Please try again.');
+      this.videoError.set(e instanceof Error ? e.message : 'An unexpected error occurred. Please try again.');
       console.error(e);
       return [];
     } finally {
-      this.isLoading.set(false);
+      this.isGeneratingVideo.set(false);
     }
   }
 

@@ -1,15 +1,16 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GeneratedData } from '../gemini/types/generated-image.type';
 import { ConfirmationDialogComponent } from '../ui/confirmation-dialog/confirmation-dialog.component';
+import { ErrorDisplayComponent } from '../ui/error-display/error-display.component';
 import { LoaderComponent } from '../ui/loader/loader.component';
 import { PromptHistoryComponent } from '../ui/prompt-history/prompt-history.component';
+import { VideoService } from '../video-generator/services/video.service';
 import { VideoPlayerComponent } from '../video-generator/video-player/video-player.component';
 import { ImageGridComponent } from './image-grid/image-grid.component';
 import { ImageMenuBarComponent } from './image-menu-bar/image-menu-bar.component';
 import { ImageService } from './services/image.service';
 import { ImageDownloadEvent } from './types/image.type';
-import { ErrorDisplayComponent } from '../ui/error-display/error-display.component';
 
 @Component({
   selector: 'app-image-creator',
@@ -17,7 +18,7 @@ import { ErrorDisplayComponent } from '../ui/error-display/error-display.compone
   imports: [
     FormsModule,
     LoaderComponent,
-    // VideoPlayerComponent,
+    VideoPlayerComponent,
     ImageGridComponent,
     ImageMenuBarComponent,
     PromptHistoryComponent,
@@ -29,8 +30,7 @@ import { ErrorDisplayComponent } from '../ui/error-display/error-display.compone
 })
 export default class ImageCreatorComponent {
   private imageService = inject(ImageService);
-
-  imageUrls = signal<GeneratedData[]>([]);
+  private videoService = inject(VideoService);
 
   promptHistory = this.imageService.promptHistory;
   prompt = this.imageService.prompt;
@@ -38,6 +38,7 @@ export default class ImageCreatorComponent {
   error = this.imageService.error;
   isGenerationDisabled = this.imageService.isGenerationDisabled;
 
+  imageUrls = signal<GeneratedData[]>([]);
   numberOfImages = signal(1);
   aspectRatio = signal('1:1');
 
@@ -45,11 +46,12 @@ export default class ImageCreatorComponent {
   enableVideoGeneration = signal(true);
   selectedImageId = signal<number | null>(null);
 
-  videoPlayer = viewChild(VideoPlayerComponent);
-
   // New state for confirmation dialog
   showDownloadConfirmation = signal(false);
   imageToDownload = signal<ImageDownloadEvent | null>(null);
+  videoUrl = signal('');
+  videoError = this.videoService.videoError;
+  isGeneratingVideo = this.videoService.isGeneratingVideo;
 
   selectedImage = computed(() => {
     const id = this.selectedImageId();
@@ -58,6 +60,10 @@ export default class ImageCreatorComponent {
     }
     return this.imageUrls().find(img => img.id === id) ?? null;
   });
+
+  isGenerateVideoDisabled = computed(() =>
+    this.selectedImage() === null || this.isGeneratingVideo() || this.isLoading()
+  );
 
   constructor() {
     this.prompt.set('A photorealistic image of a cat wearing a tiny wizard hat.');
@@ -106,8 +112,26 @@ export default class ImageCreatorComponent {
     this.imageToDownload.set(null);
   }
 
-  onGenerateVideo(): void {
-    // this.videoPlayer()?.generateVideo();
+  async generateVideo(): Promise<void> {
+    const image = this.selectedImage();
+    if (!image || !image.url.split(',')?.[1]) {
+      this.error.set('Could not extract base64 data from image URL.');
+      return;
+    }
+
+    this.videoError.set('');
+    this.videoUrl.set('');
+    const imageBytes = image.url.split(',')[1];
+    const videos = await this.videoService.generateVideosFromImage(
+      {
+        numberOfVideos: 1, aspectRatio: '16:9',
+      }, imageBytes);
+
+    if (!videos || videos.length === 0) {
+      this.error.set('Video generation finished, but the final video could not be prepared.');
+    } else {
+      this.videoUrl.set(videos[0].url);
+    }
   }
 
   clearHistory(): void {

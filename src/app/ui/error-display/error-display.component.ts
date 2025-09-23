@@ -10,6 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       </div>
     }
   `,
+  styleUrl: '../tailwind-utilities.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorDisplayComponent {

@@ -8,10 +8,10 @@
       [(numberOfImages)]="numberOfImages"
       [(aspectRatio)]="aspectRatio"
       [(enableVideoGeneration)]="enableVideoGeneration"
-      [isGeneratingVideo]="videoPlayer()?.isGeneratingVideo() ?? false"
-      [isGenerateVideoDisabled]="videoPlayer()?.isGenerateVideoDisabled() ?? true"
+      [isGeneratingVideo]="isGeneratingVideo()"
+      [isGenerateVideoDisabled]="isGenerateVideoDisabled()"
       (generateImage)="generateImage()"
-      (generateVideo)="onGenerateVideo()"
+      (generateVideo)="generateVideo()"
     />
   </div>
 
@@ -40,10 +40,19 @@
   </div>
 
   @if (enableVideoGeneration()) {
-    <!-- <app-video-player
-      [prompt]="prompt()"
-      [selectedImage]="selectedImage()"
-      [isImageLoading]="isLoading()" /> -->
+    @if (isGeneratingVideo()) {
+      <div class="mt-6">
+        <app-loader loadingText="Generating your video...">
+          <p class="text-sm">This may take a moment.</p>
+        </app-loader>
+      </div>
+    } @else {
+      <app-video-player
+        [videoUrl]="videoUrl()"
+        [videoError]="videoError()"
+        [showHeader]="true"
+      />
+    }
   }
 
   <app-confirmation-dialog
