@@ -7,6 +7,9 @@ import { GeneratedData } from '../types/generated-image.type';
 
 const POLLING_PERIOD = 10000;
 const apiKey = GEMINI_API_KEY;
+const DEFAULT_GEMINI_MODEL_NAME = 'gemini-2.5-flash-lite';
+const DEFAULT_IMAGE_MODEL_NAME = 'imagen-4.0-fast-generate-001';
+const DEFAULT_VIDEO_MODEL_NAME = 'veo-2.0-generate-001';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +59,7 @@ export class GeminiService {
   async generateTextStream(prompt: string) {
     try {
       return await this.ai.models.generateContentStream({
-        model: GEMINI_MODEL_NAME || 'gemini-2.5-flash-lite',
+        model: GEMINI_MODEL_NAME || DEFAULT_GEMINI_MODEL_NAME,
         contents: prompt,
         config: this.genTextConfig
       });
@@ -68,7 +71,7 @@ export class GeminiService {
   async generateImages(prompt: string, config: GenerateImagesConfig): Promise<GeneratedData[]> {
     try {
       const response = await this.ai.models.generateImages({
-          model: IMAGE_MODEL_NAME || 'imagen-4.0-generate-001',
+          model: IMAGE_MODEL_NAME || DEFAULT_IMAGE_MODEL_NAME,
           prompt,
           config: {
               ...config,
@@ -99,7 +102,7 @@ export class GeminiService {
       const numberOfVideos = config.numberOfVideos || 1;
 
       const ranges: number[] = Array(numberOfVideos).fill(1);
-      const model = VIDEO_MODEL_NAME || 'veo-2.0-generate-001';
+      const model = VIDEO_MODEL_NAME || DEFAULT_VIDEO_MODEL_NAME;
       const downloadLinks = await ranges.reduce(async (prev) => {
         const request: GenerateVideosParameters = {
           model,
