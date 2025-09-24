@@ -19,8 +19,8 @@ import { VideoIconComponent } from './nav-icons/video-icon.component';
 export class NavigationComponent {
   navItems = [
     { path: '/story-generator', label: 'Story Generator', icon: StoryIconComponent },
+    { path: '/chatbot', label: 'Chatbot', icon: ChatIconComponent },
     { path: '/image-creator', label: 'Image Creator', icon: ImageIconComponent },
     { path: '/video-generator', label: 'Video Creator', icon: VideoIconComponent },
-    { path: '/chatbot', label: 'Chatbot', icon: ChatIconComponent }
   ];
 }
