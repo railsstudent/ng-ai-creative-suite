@@ -56,11 +56,11 @@ export class GeminiService {
     return 'An unexpected error occurred. Please check the console for details.';
   }
 
-  async generateTextStream(prompt: string) {
+  async generateTextStream(contents: string) {
     try {
       return await this.ai.models.generateContentStream({
         model: GEMINI_MODEL_NAME || DEFAULT_GEMINI_MODEL_NAME,
-        contents: prompt,
+        contents,
         config: this.genTextConfig
       });
     } catch (error) {
@@ -93,6 +93,14 @@ export class GeminiService {
       }, [] as GeneratedData[]);
     } catch (error) {
         throw new Error(this.getErrorMessage(error));
+    }
+  }
+
+  async sendChatMessageStream(message: string) {
+    try {
+     return await this.chat.sendMessageStream({ message });
+    } catch (error) {
+      throw new Error(this.getErrorMessage(error));
     }
   }
 
@@ -140,14 +148,6 @@ export class GeminiService {
       return await firstValueFrom(blobUrls$);
     } catch (error) {
         throw new Error(this.getErrorMessage(error));
-    }
-  }
-
-  async sendChatMessageStream(message: string) {
-    try {
-     return await this.chat.sendMessageStream({ message });
-    } catch (error) {
-      throw new Error(this.getErrorMessage(error));
     }
   }
 }
