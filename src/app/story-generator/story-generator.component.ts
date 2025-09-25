@@ -50,12 +50,7 @@ export default class StoryGeneratorComponent {
     });
 
     afterRenderEffect({
-      write: () => {
-        const value = this.storyChunk();
-        if (value) {
-          this.parserService.writeToElement(value);
-        }
-      }
+      write: () => this.parserService.writeToElement(this.storyChunk())
     });
   }
 
@@ -76,7 +71,10 @@ export default class StoryGeneratorComponent {
       lengthDescription: this.length(),
       genre: this.genre()
     };
-    await this.storyService.generateStory(params, this.storyChunk);
+    await this.storyService.generateStory(
+      params,
+      this.storyChunk,
+    );
   }
 
   clearHistory(): void {

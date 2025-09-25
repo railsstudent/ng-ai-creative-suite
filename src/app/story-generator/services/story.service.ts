@@ -44,7 +44,11 @@ export class StoryService {
     ];
   }
 
-  async generateStory({ lengthDescription: length, genre }: StoryParams, chunkSignal: WritableSignal<string>): Promise<void> {
+  async generateStory(
+    { lengthDescription: length, genre }: StoryParams,
+    chunkSignal: WritableSignal<string>,
+  ):
+  Promise<void> {
 
     try {
       this.isLoading.set(true);
@@ -72,7 +76,7 @@ export class StoryService {
       this.error.set(e instanceof Error ? e.message : 'Failed to generate story. Please try again.');
       console.error(e);
     } finally {
-      this.parserService.resetParser();
+      this.parserService.flushAll();
       this.isLoading.set(false);
     }
   }

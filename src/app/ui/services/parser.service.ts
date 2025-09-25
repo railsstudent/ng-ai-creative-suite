@@ -18,11 +18,6 @@ export class ParserService {
       return !!this.parser;
     }
 
-    resetParser(): void {
-      this.parser = undefined;
-      this.chunks = '';
-    }
-
     writeToElement(chunk: string) {
         if (!this.parser) {
             console.log('No parser, return');
@@ -42,8 +37,13 @@ export class ParserService {
         }
 
         smd.parser_write(this.parser, chunk);
-        if (!chunk && this.parser.pending.length) {
-            smd.parser_end(this.parser);
-        }
+    }
+
+    flushAll() {
+      if (this.parser?.pending.length) {
+        smd.parser_end(this.parser);
+      }
+      this.parser = undefined;
+      this.chunks = '';
     }
 }
