@@ -30,7 +30,7 @@ export default class StoryGeneratorComponent {
   error = this.storyService.error;
   isGenerationDisabled = this.storyService.isGenerationDisabled;
 
-  storyLength = signal<StoryLength>('short');
+  length = signal<StoryLength>('short');
   genre = signal('fantasy');
   storyChunk = signal('');
 
@@ -73,7 +73,7 @@ export default class StoryGeneratorComponent {
     }
 
     const params = {
-      lengthDescription: this.storyLength(),
+      lengthDescription: this.length(),
       genre: this.genre()
     };
     await this.storyService.generateStory(params, this.storyChunk);
