@@ -32,7 +32,7 @@ export default class StoryGeneratorComponent {
 
   storyLength = signal<StoryLength>('short');
   genre = signal('fantasy');
-  story = signal('');
+  storyChunk = signal('');
 
   storyHolder = viewChild<ElementRef<HTMLDivElement>>('storyHolder');
   storyHolderElement = computed(() => this.storyHolder()?.nativeElement);
@@ -51,7 +51,7 @@ export default class StoryGeneratorComponent {
 
     afterRenderEffect({
       write: () => {
-        const value = this.story();
+        const value = this.storyChunk();
         if (value) {
           this.parserService.writeToElement(value);
         }
@@ -76,7 +76,7 @@ export default class StoryGeneratorComponent {
       lengthDescription: this.storyLength(),
       genre: this.genre()
     };
-    await this.storyService.generateStory(params, this.story);
+    await this.storyService.generateStory(params, this.storyChunk);
   }
 
   clearHistory(): void {
