@@ -5,7 +5,7 @@
   <div class="story-padding">
     <app-story-generate-menu-bar
       [(prompt)]="prompt"
-      [(storyLength)]="storyLength"
+      [(storyLength)]="length"
       [(genre)]="genre"
       [storyLengthOptions]="storyLengthOptions"
       [genreOptions]="genreOptions"
@@ -27,7 +27,7 @@
         <p class="text-sm">This may take a moment.</p>
       </app-loader>
     </div>
-  } @else if (story()) {
+  } @else if (storyChunk()) {
     <div class="mt-6 story-padding">
       <h2 class="text-2xl font-bold text-indigo-400 mb-4">Your Story</h2>
       <div class="prose prose-invert max-w-none text-gray-300 whitespace-pre-wrap" #storyHolder></div>
