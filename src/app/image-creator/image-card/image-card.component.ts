@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { CheckIconComponent } from '../../icons/check-icon.component';
-import { DownloadIconComponent } from '../../icons/download-icon.component';
+import { FormsModule } from '@angular/forms';
 import { Image, ImageDownloadEvent } from '../types/image.type';
+import { CheckIconComponent } from './icons/check-icon.component';
+import { DownloadIconComponent, RegenerateIconComponent } from './icons/download-icon.component';
 
 @Component({
   selector: 'app-image-card',
   templateUrl: './image-card.component.html',
-  imports: [DownloadIconComponent, CheckIconComponent],
+  imports: [FormsModule, DownloadIconComponent, CheckIconComponent, RegenerateIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageCardComponent {
@@ -17,16 +18,12 @@ export class ImageCardComponent {
 
   selected = output<number>();
   downloaded = output<ImageDownloadEvent>();
+  regenerate = output<number>();
 
   onSelectImage(): void {
     // Only emit if selection is enabled to prevent accidental selections
     if (this.enableSelection()) {
       this.selected.emit(this.image().id);
     }
-  }
-
-  onDownloadImage(event: MouseEvent): void {
-    event.stopPropagation();
-    this.downloaded.emit({ imageUrl: this.image().url, index: this.index() });
   }
 }

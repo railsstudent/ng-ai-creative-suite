@@ -2,7 +2,7 @@
   <h1 class="main-header">Image Creator</h1>
   <p class="main-header2">Bring your ideas to life. Describe an image and watch AI create it.</p>
 
-  <div class="bg-gray-800 rounded-lg shadow-xl p-6">
+  <div class="generator-container">
     <app-image-menu-bar
       [(prompt)]="prompt"
       [(numberOfImages)]="numberOfImages"
@@ -35,7 +35,8 @@
         [enableSelection]="enableVideoGeneration()"
         (imageSelected)="selectImage($event)"
         (imageDownloaded)="downloadImage($event)"
-        />
+        (regenerateImage)="regenerateImage($event)"
+      />
     }
   </div>
 
@@ -56,12 +57,18 @@
   }
 
   <app-confirmation-dialog
-    [isOpen]="showDownloadConfirmation()"
-    confirmText="Download"
-    (confirm)="confirmDownload()"
-    (cancel)="cancelDownload()"
+    [isOpen]="showDownloadConfirmation() !== 'none'"
+    [confirmText]="showDownloadConfirmation() === 'download' ? 'Download' : 'Regenerate'"
+    (confirm)="doConfirm()"
+    (cancel)="doCancel()"
   >
-    <h3 class="text-xl font-semibold text-white mb-2">Confirm Download</h3>
-    <p class="text-gray-400 mb-6">Are you sure you want to download this image?</p>
+    @let confirmationType = showDownloadConfirmation();
+    @if (confirmationType === 'download') {
+      <h3 class="confirm-header">Confirm Download</h3>
+      <p class="gray-text">Are you sure you want to download this image?</p>
+    } @else if (confirmationType === 'regenerate') {
+      <h3 class="confirm-header">Confirm Regenerate Image</h3>
+      <p class="gray-text">Are you sure you want to regenerate this image?</p>
+    }
   </app-confirmation-dialog>
 </div>

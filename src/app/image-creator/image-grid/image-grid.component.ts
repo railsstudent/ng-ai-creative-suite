@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { ImageCardComponent } from '../image-card/image-card.component';
-import { ImageDownloadEvent, Image } from '../types/image.type';
+import { Image, ImageDownloadEvent } from '../types/image.type';
 
 @Component({
   selector: 'app-image-grid',
@@ -15,4 +15,5 @@ export class ImageGridComponent {
 
   imageSelected = output<number>();
   imageDownloaded = output<ImageDownloadEvent>();
+  regenerateImage = output<number>();
 }

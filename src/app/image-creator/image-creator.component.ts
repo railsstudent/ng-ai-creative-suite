@@ -47,8 +47,9 @@ export default class ImageCreatorComponent {
   selectedImageId = signal<number | null>(null);
 
   // New state for confirmation dialog
-  showDownloadConfirmation = signal(false);
+  showDownloadConfirmation = signal<'download' | 'regenerate' | 'none'>('none');
   imageToDownload = signal<ImageDownloadEvent | null>(null);
+  imageToRegenerate = signal(-1);
   videoUrl = signal('');
   videoError = this.videoService.videoError;
   isGeneratingVideo = this.videoService.isGeneratingVideo;
@@ -94,10 +95,26 @@ export default class ImageCreatorComponent {
 
   downloadImage(image: ImageDownloadEvent): void {
     this.imageToDownload.set(image);
-    this.showDownloadConfirmation.set(true);
+    this.showDownloadConfirmation.set('download');
   }
 
-  confirmDownload(): void {
+  doConfirm() {
+    if (this.showDownloadConfirmation() === 'download') {
+      this.confirmDownload();
+    } else if (this.showDownloadConfirmation() === 'regenerate') {
+      this.confirmRegenerate();
+    }
+  }
+
+  doCancel() {
+    if (this.showDownloadConfirmation() === 'download') {
+      this.cancelDownload();
+    } else if (this.showDownloadConfirmation() === 'regenerate') {
+      this.cancelRegenerate();
+    }
+  }
+
+  private confirmDownload(): void {
     const image = this.imageToDownload();
     if (!image) {
       return;
@@ -107,9 +124,24 @@ export default class ImageCreatorComponent {
     this.cancelDownload();
   }
 
-  cancelDownload(): void {
-    this.showDownloadConfirmation.set(false);
+  private cancelDownload(): void {
+    this.showDownloadConfirmation.set('none');
     this.imageToDownload.set(null);
+  }
+
+  regenerateImage(index: number): void {
+    this.imageToRegenerate.set(index);
+    this.showDownloadConfirmation.set('regenerate');
+  }
+
+  private confirmRegenerate() {
+    console.log('imageToRegenerate', this.imageToRegenerate());
+    this.cancelRegenerate();
+  }
+
+  private cancelRegenerate(): void {
+    this.showDownloadConfirmation.set('none');
+    this.imageToRegenerate.set(-1);
   }
 
   async generateVideo(): Promise<void> {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SpinnerIconComponent } from '../../icons/spinner-icon.component';
+import { SpinnerIconComponent } from '../icons/spinner-icon.component';
 import { PromptFormService } from '../services/prompt-form.service';
 
 @Component({
