@@ -47,7 +47,7 @@ export default class ImageCreatorComponent {
   selectedImageId = signal<number | null>(null);
 
   // New state for confirmation dialog
-  showDownloadConfirmation = signal<'download' | 'regenerate' | 'none'>('none');
+  showConfirmation = signal<'download' | 'regenerate' | 'none'>('none');
   imageToDownload = signal<ImageDownloadEvent | null>(null);
   imageToRegenerate = signal(-1);
   videoUrl = signal('');
@@ -95,21 +95,21 @@ export default class ImageCreatorComponent {
 
   downloadImage(image: ImageDownloadEvent): void {
     this.imageToDownload.set(image);
-    this.showDownloadConfirmation.set('download');
+    this.showConfirmation.set('download');
   }
 
-  doConfirm() {
-    if (this.showDownloadConfirmation() === 'download') {
+  async doConfirm() {
+    if (this.showConfirmation() === 'download') {
       this.confirmDownload();
-    } else if (this.showDownloadConfirmation() === 'regenerate') {
-      this.confirmRegenerate();
+    } else if (this.showConfirmation() === 'regenerate') {
+      await this.confirmRegenerate();
     }
   }
 
   doCancel() {
-    if (this.showDownloadConfirmation() === 'download') {
+    if (this.showConfirmation() === 'download') {
       this.cancelDownload();
-    } else if (this.showDownloadConfirmation() === 'regenerate') {
+    } else if (this.showConfirmation() === 'regenerate') {
       this.cancelRegenerate();
     }
   }
@@ -125,22 +125,37 @@ export default class ImageCreatorComponent {
   }
 
   private cancelDownload(): void {
-    this.showDownloadConfirmation.set('none');
+    this.showConfirmation.set('none');
     this.imageToDownload.set(null);
   }
 
   regenerateImage(index: number): void {
     this.imageToRegenerate.set(index);
-    this.showDownloadConfirmation.set('regenerate');
+    this.showConfirmation.set('regenerate');
   }
 
-  private confirmRegenerate() {
-    console.log('imageToRegenerate', this.imageToRegenerate());
+  private async confirmRegenerate() {
+    if (this.imageToRegenerate() < 0) {
+      return;
+    }
+
+    const index = this.imageToRegenerate();
     this.cancelRegenerate();
+
+    const config = {
+      numberOfImages: 1,
+      aspectRatio: this.aspectRatio(),
+    };
+    const image = await this.imageService.regenerateImage(config);
+    if (image) {
+      this.imageUrls.update(
+        (items) => items.map((item, i) => i == index ? image : item)
+      );
+    }
   }
 
   private cancelRegenerate(): void {
-    this.showDownloadConfirmation.set('none');
+    this.showConfirmation.set('none');
     this.imageToRegenerate.set(-1);
   }
 

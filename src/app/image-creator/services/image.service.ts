@@ -64,4 +64,25 @@ export class ImageService {
     link.click();
     this.document.body.removeChild(link);
   }
+
+  async regenerateImage(config: GenerateImagesConfig): Promise<GeneratedData | undefined> {
+    this.isLoading.set(true);
+    this.error.set('');
+
+    try {
+      const results = await this.geminiService.generateImages(this.prompt(), config);
+      if (results.length === 0) {
+        this.error.set('Failed to generate images. The prompt may have been blocked by safety filters.');
+        return undefined;
+      }
+
+      return results[0];
+    } catch (e: unknown) {
+      this.error.set(e instanceof Error ? e.message : 'An unexpected error occurred. Please try again.');
+      console.error(e);
+      return undefined;
+    } finally {
+      this.isLoading.set(false);
+    }
+  }
 }

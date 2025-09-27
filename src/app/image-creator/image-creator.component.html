@@ -57,12 +57,12 @@
   }
 
   <app-confirmation-dialog
-    [isOpen]="showDownloadConfirmation() !== 'none'"
+    [isOpen]="showConfirmation() !== 'none'"
     confirmText="Yes"
     (confirm)="doConfirm()"
     (cancel)="doCancel()"
   >
-    @let confirmationType = showDownloadConfirmation();
+    @let confirmationType = showConfirmation();
     @if (confirmationType === 'download') {
       <h3 class="confirm-header">Confirm Download</h3>
       <p class="gray-text">Are you sure you want to download this image?</p>

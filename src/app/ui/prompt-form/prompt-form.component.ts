@@ -27,10 +27,8 @@ export class PromptFormComponent {
   }
 
   onEnterPress(event: KeyboardEvent): void {
-    // Submit on Enter, allow new line with Shift+Enter
     if (event.key === 'Enter') {
-        event.preventDefault();
-        this.onGenerateClick();
+      this.onGenerateClick()
     }
   }
 }
