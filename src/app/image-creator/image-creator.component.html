@@ -58,7 +58,7 @@
 
   <app-confirmation-dialog
     [isOpen]="showDownloadConfirmation() !== 'none'"
-    [confirmText]="showDownloadConfirmation() === 'download' ? 'Download' : 'Regenerate'"
+    confirmText="Yes"
     (confirm)="doConfirm()"
     (cancel)="doCancel()"
   >
