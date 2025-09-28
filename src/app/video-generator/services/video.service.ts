@@ -25,15 +25,17 @@ export class VideoService {
   isGeneratingVideo = signal(false);
 
   async generateVideosFromPrompt(config: GenerateVideosConfig): Promise<GeneratedData[]> {
-    return this.generateVideosFromImage(config)
+    return this.generateVideosFromImage(config, true)
   }
 
   async generateVideosFromImage(
     config: GenerateVideosConfig,
+    shouldBlockPrompting: boolean,
     imageBytes: string | undefined = undefined
   ): Promise<GeneratedData[]> {
     this.isGeneratingVideo.set(true);
     this.videoError.set('');
+    this.isLoading.set(shouldBlockPrompting);
 
     this.promptHistoryService.addPrompt(this.historyKey, this.prompt());
 
@@ -51,6 +53,7 @@ export class VideoService {
       return [];
     } finally {
       this.isGeneratingVideo.set(false);
+      this.isLoading.set(false);
     }
   }
 

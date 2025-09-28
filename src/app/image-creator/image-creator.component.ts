@@ -172,7 +172,7 @@ export default class ImageCreatorComponent {
     const videos = await this.videoService.generateVideosFromImage(
       {
         numberOfVideos: 1, aspectRatio: '16:9',
-      }, imageBytes);
+      }, false, imageBytes);
 
     if (!videos || videos.length === 0) {
       this.error.set('Video generation finished, but the final video could not be prepared.');
