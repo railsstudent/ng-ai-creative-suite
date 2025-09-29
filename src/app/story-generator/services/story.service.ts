@@ -47,8 +47,7 @@ export class StoryService {
   async generateStory(
     { lengthDescription: length, genre }: StoryParams,
     chunkSignal: WritableSignal<string>,
-  ):
-  Promise<void> {
+  ): Promise<void> {
 
     try {
       this.isLoading.set(true);
