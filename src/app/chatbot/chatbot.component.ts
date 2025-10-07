@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChatbotHeaderComponent } from './chatbot-header/chatbot-header.component';
 import { ChatbotInputComponent } from './chatbot-input/chatbot-input.component';
