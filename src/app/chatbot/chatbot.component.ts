@@ -18,7 +18,7 @@ import { ChatBotService } from './services/chat.service';
       class="flex-1 p-4 space-y-4 overflow-y-auto"
       [messages]="messages()" [isLoading]="isLoading()"
     />
-    <app-chatbot-input (sendMessageClicked)="sendMessage($event)" [(currentMessage)]="currentMessage" />
+    <app-chatbot-input (sendMessageClicked)="sendMessage($event)" />
   </div>
 </div>
 `,
@@ -31,7 +31,6 @@ export default class ChatbotComponent {
   isLoading = this.chatbotService.isLoading;
   messages = this.chatbotService.messages;
 
-  currentMessage = signal('');
   chatContainer = viewChild.required<ChatbotMessagesComponent>('messagesContainer');
 
   constructor() {
@@ -44,7 +43,6 @@ export default class ChatbotComponent {
 
   async sendMessage(userMessage: string): Promise<void> {
     this.chatbotService.sendMessage(userMessage);
-    this.currentMessage.set('');
   }
 
   clearChat(): void {

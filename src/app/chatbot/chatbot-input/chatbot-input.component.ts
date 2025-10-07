@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, model, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MAX_CHARACTER_COUNT } from '../constants/chat.const';
 import { ChatBotService } from '../services/chat.service';
@@ -14,7 +14,7 @@ export class ChatbotInputComponent {
 
   readonly maxLength = MAX_CHARACTER_COUNT;
 
-  currentMessage = model('');
+  currentMessage = signal('');
   charCountDisplay = computed(() => `${this.currentMessage().length} / ${this.maxLength}`);
   trimmedMessage = computed(() => this.currentMessage().trim());
 
