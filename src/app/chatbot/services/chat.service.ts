@@ -31,8 +31,7 @@ export class ChatBotService  {
     });
     this.isLoading.set(true);
 
-    const prevMessages = [...this.#messages()];
-    const newId = prevMessages.length;
+    const newId = this.#messages().length;
 
     try {
       // Get bot response
@@ -51,10 +50,10 @@ export class ChatBotService  {
       }
 
       const parsedMarkdown = await marked.parse(this.#message());
-      this.#messages.set([...prevMessages, { id: newId, sender: 'bot', text: parsedMarkdown }]);
+      this.#messages.set([...this.#messages(), { id: newId, sender: 'bot', text: parsedMarkdown }]);
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : 'Sorry, I encountered an error. Please try again.';
-      this.#messages.set([...prevMessages, { id: newId, sender: 'bot', text: errorMessage }]);
+      this.#messages.set([...this.#messages(), { id: newId, sender: 'bot', text: errorMessage }]);
     } finally {
       this.isLoading.set(false);
       this.#message.set('');
