@@ -1,10 +1,7 @@
 import { NgComponentOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { ChatIconComponent } from './nav-icons/chat-icon.component';
-import { ImageIconComponent } from './nav-icons/image-icon.component';
-import { StoryIconComponent } from './nav-icons/story-icon.component';
-import { VideoIconComponent } from './nav-icons/video-icon.component';
+import { NavigationService } from './services/navigation.service';
 
 @Component({
   selector: 'app-navigation',
@@ -17,10 +14,7 @@ import { VideoIconComponent } from './nav-icons/video-icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationComponent {
-  navItems = [
-    { path: '/story-generator', label: 'Story Generator', icon: StoryIconComponent },
-    { path: '/chatbot', label: 'Chatbot', icon: ChatIconComponent },
-    { path: '/image-creator', label: 'Image Creator', icon: ImageIconComponent },
-    { path: '/video-generator', label: 'Video Creator', icon: VideoIconComponent },
-  ];
+  readonly navService = inject(NavigationService);
+
+  navItems = this.navService.getNavItems();
 }
