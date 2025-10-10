@@ -2,8 +2,8 @@ import { DOCUMENT, inject, Injectable } from '@angular/core';
 import { GenerateImagesConfig } from '@google/genai';
 import { GeminiService } from '../../gemini/services/gemini.service';
 import { GeneratedData } from '../../gemini/types/generated-image.type';
-import { PromptFormService } from '../../ui/services/prompt-form.service';
-import { PromptHistoryService } from '../../ui/services/prompt-history.service';
+import { PromptFormService } from '../../shared/services/prompt-form.service';
+import { PromptHistoryService } from '../../shared/services/prompt-history.service';
 import { ImageDownloadEvent } from '../types/image.type';
 
 @Injectable({

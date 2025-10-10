@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { GeneratedData } from '../gemini/types/generated-image.type';
-import { LoaderComponent } from '../ui/loader/loader.component';
-import { PromptHistoryComponent } from '../ui/prompt-history/prompt-history.component';
+import { LoaderComponent } from '../shared/loader/loader.component';
+import { PromptHistoryComponent } from '../shared/prompt-history/prompt-history.component';
 import { VideoService } from './services/video.service';
 import { VideoGridComponent } from "./video-grid/video-grid.component";
 import { VideoMenuBarComponent } from './video-menu-bar/video-menu-bar.component';
-import { ErrorDisplayComponent } from '../ui/error-display/error-display.component';
+import { ErrorDisplayComponent } from '../shared/error-display/error-display.component';
 
 @Component({
   selector: 'app-video-generator',
@@ -17,7 +17,7 @@ import { ErrorDisplayComponent } from '../ui/error-display/error-display.compone
     VideoGridComponent,
     LoaderComponent,
 ],
-  styleUrl: '../ui/tailwind-utilities.css',
+  styleUrl: '../shared/tailwind-utilities.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class VideoGeneratorComponent {

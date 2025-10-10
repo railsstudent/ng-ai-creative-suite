@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PromptFormComponent } from '../../ui/prompt-form/prompt-form.component';
+import { PromptFormComponent } from '../../shared/prompt-form/prompt-form.component';
 
 @Component({
   selector: 'app-video-menu-bar',
   imports: [FormsModule, PromptFormComponent],
   templateUrl: './video-menu-bar.component.html',
-  styleUrl: '../../ui/tailwind-utilities.css',
+  styleUrl: '../../shared/tailwind-utilities.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoMenuBarComponent {

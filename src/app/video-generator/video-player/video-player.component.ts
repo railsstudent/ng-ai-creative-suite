@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { ErrorDisplayComponent } from '../../ui/error-display/error-display.component';
-import { LoaderComponent } from '../../ui/loader/loader.component';
+import { ErrorDisplayComponent } from '../../shared/error-display/error-display.component';
+import { LoaderComponent } from '../../shared/loader/loader.component';
 
 @Component({
   selector: 'app-video-player',
@@ -25,7 +25,7 @@ import { LoaderComponent } from '../../ui/loader/loader.component';
 
 <app-error-display [error]="videoError()" />
   `,
-  styleUrl: '../../ui/tailwind-utilities.css',
+  styleUrl: '../../shared/tailwind-utilities.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayerComponent {

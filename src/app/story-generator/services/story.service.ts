@@ -1,8 +1,8 @@
 import { inject, Injectable, WritableSignal } from '@angular/core';
 import { GeminiService } from '../../gemini/services/gemini.service';
-import { ParserService } from '../../ui/services/parser.service';
-import { PromptFormService } from '../../ui/services/prompt-form.service';
-import { PromptHistoryService } from '../../ui/services/prompt-history.service';
+import { ParserService } from '../../shared/services/parser.service';
+import { PromptFormService } from '../../shared/services/prompt-form.service';
+import { PromptHistoryService } from '../../shared/services/prompt-history.service';
 import { StoryOption } from '../types/story-option';
 import { StoryParams } from '../types/story-params';
 

@@ -22,7 +22,7 @@ import { ChatBotService } from './services/chat.service';
   </div>
 </div>
 `,
-  styleUrls: ['../ui/tailwind-utilities.css', './chatbot.component.css'],
+  styleUrls: ['../shared/tailwind-utilities.css', './chatbot.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ChatbotComponent {

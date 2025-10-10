@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GeneratedData } from '../gemini/types/generated-image.type';
-import { ConfirmationDialogComponent } from '../ui/confirmation-dialog/confirmation-dialog.component';
-import { ErrorDisplayComponent } from '../ui/error-display/error-display.component';
-import { LoaderComponent } from '../ui/loader/loader.component';
-import { PromptHistoryComponent } from '../ui/prompt-history/prompt-history.component';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { ErrorDisplayComponent } from '../shared/error-display/error-display.component';
+import { LoaderComponent } from '../shared/loader/loader.component';
+import { PromptHistoryComponent } from '../shared/prompt-history/prompt-history.component';
 import { VideoService } from '../video-generator/services/video.service';
 import { VideoPlayerComponent } from '../video-generator/video-player/video-player.component';
 import { ImageGridComponent } from './image-grid/image-grid.component';
@@ -25,7 +25,7 @@ import { ImageDownloadEvent } from './types/image.type';
     ConfirmationDialogComponent,
     ErrorDisplayComponent,
   ],
-  styleUrls: ['../ui/tailwind-utilities.css'],
+  styleUrls: ['../shared/tailwind-utilities.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ImageCreatorComponent {

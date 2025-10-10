@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SpinnerIconComponent } from '../../ui/icons/spinner-icon.component';
-import { PromptFormComponent } from '../../ui/prompt-form/prompt-form.component';
+import { SpinnerIconComponent } from '../../shared/icons/spinner-icon.component';
+import { PromptFormComponent } from '../../shared/prompt-form/prompt-form.component';
 
 @Component({
   selector: 'app-image-menu-bar',
   templateUrl: './image-menu-bar.component.html',
   imports: [FormsModule, SpinnerIconComponent, PromptFormComponent],
-  styleUrl: '../../ui/tailwind-utilities.css',
+  styleUrl: '../../shared/tailwind-utilities.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageMenuBarComponent {
