@@ -10,9 +10,9 @@ import { INITIAL_BOT_MESSAGE } from '../constants/chat.const';
 })
 export class ChatBotService  {
   private readonly geminiService = inject(GeminiService);
-  private readonly uiStateService = inject(PromptFormService);
+  private readonly promptFormService = inject(PromptFormService);
 
-  isLoading = this.uiStateService.isLoading;
+  isLoading = this.promptFormService.isLoading;
 
   #messages = signal([INITIAL_BOT_MESSAGE]);
   messages = this.#messages.asReadonly();
