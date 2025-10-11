@@ -14,5 +14,10 @@
     { "value": "comedy", "label": "Comedy" },
     { "value": "adventure", "label": "Adventure" },
     { "value": "sport", "label": "Sport" }
-  ]
+  ],
+  "lengthDescription": {
+    "short": "a short (around 300 words)",
+    "medium": "a medium-length (around 450 words)",
+    "long": "a long (around 600 words)"
+  }
 }

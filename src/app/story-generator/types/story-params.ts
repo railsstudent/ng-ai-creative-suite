@@ -1,4 +1,4 @@
 export type StoryParams = {
-  length: string;
+  length: 'short' | 'medium' | 'long';
   genre: string;
 }

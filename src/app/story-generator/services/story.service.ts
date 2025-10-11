@@ -33,7 +33,7 @@ export class StoryService {
   }
 
   async generateStory(
-    { length, genre }: StoryParams,
+    params: StoryParams,
     chunkSignal: WritableSignal<string>,
   ): Promise<void> {
 
@@ -44,13 +44,7 @@ export class StoryService {
       // The service now handles trimming and empty checks for history
       this.promptHistoryService.addPrompt(this.historyKey, this.prompt());
 
-      const lengthInstruction = {
-        short: 'a short (around 300 words)',
-        medium: 'a medium-length (around 450 words)',
-        long: 'a long (around 600 words)',
-      }[length];
-
-      const fullPrompt = `Write ${lengthInstruction} creative ${genre} story based on the following prompt: "${this.prompt()}"`;
+      const fullPrompt = this.getFullPrompt(params);
       const stream = await this.geminiService.generateTextStream(fullPrompt);
       this.isLoading.set(false);
 
@@ -66,6 +60,16 @@ export class StoryService {
       this.parserService.flushAll();
       this.isLoading.set(false);
     }
+  }
+
+  private getFullPrompt({ length, genre }: StoryParams) {
+    const lengthDescriptionMap = storyConfig.lengthDescription as {
+      [key in StoryParams['length']]: string;
+    };
+    const lengthInstruction = lengthDescriptionMap[length] || '';
+
+    const fullPrompt = `Write ${lengthInstruction} creative ${genre} story based on the following prompt: "${this.prompt()}"`;
+    return fullPrompt;
   }
 
   clearHistory(): void {
