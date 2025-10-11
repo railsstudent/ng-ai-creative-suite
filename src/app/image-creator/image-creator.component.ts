@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { FormsModule } from '@angular/forms';
 import { GeneratedData } from '../gemini/types/generated-image.type';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { ContainerComponent } from '../shared/container/container.component';
 import { ErrorDisplayComponent } from '../shared/error-display/error-display.component';
 import { LoaderComponent } from '../shared/loader/loader.component';
 import { PromptHistoryComponent } from '../shared/prompt-history/prompt-history.component';
@@ -24,6 +25,7 @@ import { ImageDownloadEvent } from './types/image.type';
     PromptHistoryComponent,
     ConfirmationDialogComponent,
     ErrorDisplayComponent,
+    ContainerComponent
   ],
   styleUrls: ['../shared/tailwind-utilities.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

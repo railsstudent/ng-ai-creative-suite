@@ -1,11 +1,12 @@
 import { afterRenderEffect, ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, Renderer2, signal, viewChild } from '@angular/core';
-import { ParserService } from '../shared/services/parser.service';
+import { ContainerComponent } from '../shared/container/container.component';
+import { ErrorDisplayComponent } from '../shared/error-display/error-display.component';
 import { LoaderComponent } from '../shared/loader/loader.component';
 import { PromptHistoryComponent } from '../shared/prompt-history/prompt-history.component';
+import { ParserService } from '../shared/services/parser.service';
 import { StoryService } from './services/story.service';
 import { StoryGenerateMenuBarComponent } from './story-generate-menu-bar/story-generate-menu-bar.component';
 import { StoryLength } from './types/story-length';
-import { ErrorDisplayComponent } from '../shared/error-display/error-display.component';
 
 @Component({
   selector: 'app-story-generator',
@@ -14,7 +15,8 @@ import { ErrorDisplayComponent } from '../shared/error-display/error-display.com
     ErrorDisplayComponent,
     LoaderComponent,
     PromptHistoryComponent,
-    StoryGenerateMenuBarComponent
+    StoryGenerateMenuBarComponent,
+    ContainerComponent
   ],
   styleUrl: '../shared/tailwind-utilities.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { GeneratedData } from '../gemini/types/generated-image.type';
+import { ContainerComponent } from '../shared/container/container.component';
+import { ErrorDisplayComponent } from '../shared/error-display/error-display.component';
 import { LoaderComponent } from '../shared/loader/loader.component';
 import { PromptHistoryComponent } from '../shared/prompt-history/prompt-history.component';
 import { VideoService } from './services/video.service';
 import { VideoGridComponent } from "./video-grid/video-grid.component";
 import { VideoMenuBarComponent } from './video-menu-bar/video-menu-bar.component';
-import { ErrorDisplayComponent } from '../shared/error-display/error-display.component';
 
 @Component({
   selector: 'app-video-generator',
@@ -16,6 +17,7 @@ import { ErrorDisplayComponent } from '../shared/error-display/error-display.com
     PromptHistoryComponent,
     VideoGridComponent,
     LoaderComponent,
+    ContainerComponent,
 ],
   styleUrl: '../shared/tailwind-utilities.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -7,7 +7,12 @@ import { ChatBotService } from './services/chat.service';
 
 @Component({
   selector: 'app-chatbot',
-  imports: [FormsModule, ChatbotInputComponent, ChatbotHeaderComponent, ChatbotMessagesComponent],
+  imports: [
+    FormsModule,
+    ChatbotInputComponent,
+    ChatbotHeaderComponent,
+    ChatbotMessagesComponent
+  ],
   template: `
 <div class="flex flex-col h-full container">
   <div class="flex-grow flex flex-col bg-gray-800 rounded-t-lg shadow-xl overflow-hidden">

@@ -1,7 +1,6 @@
-<div class="container">
-  <h1 class="main-header">Video Generator</h1>
-  <p class="main-header2">Create stunning, high-quality videos from a simple text description.</p>
-
+<app-container>
+  <ng-container header1>Video Generator</ng-container>
+  <ng-container header2>Create stunning, high-quality videos from a simple text description.</ng-container>
   <div class="generator-container">
     <app-video-menu-bar
       [(prompt)]="prompt"
@@ -28,4 +27,4 @@
       <app-video-grid [videos]="videoUrls()" />
     }
   </div>
-</div>
+</app-container>
