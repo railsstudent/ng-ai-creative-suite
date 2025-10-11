@@ -1,0 +1,18 @@
+{
+  "length": [
+    { "value": "short", "label": "Short" },
+    { "value": "medium", "label": "Medium" },
+    { "value": "long", "label": "Long" }
+  ],
+  "genre":  [
+    { "value": "fantasy", "label": "Fantasy" },
+    { "value": "action", "label": "Action" },
+    { "value": "sci-fi", "label": "Sci-Fi" },
+    { "value": "mystery", "label": "Mystery" },
+    { "value": "romance", "label": "Romance" },
+    { "value": "horror", "label": "Horror" },
+    { "value": "comedy", "label": "Comedy" },
+    { "value": "adventure", "label": "Adventure" },
+    { "value": "sport", "label": "Sport" }
+  ]
+}

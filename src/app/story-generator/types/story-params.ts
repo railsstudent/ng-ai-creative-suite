@@ -1,4 +1,4 @@
 export type StoryParams = {
-  lengthDescription: string;
+  length: string;
   genre: string;
 }

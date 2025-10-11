@@ -5,6 +5,7 @@ import { PromptFormService } from '../../shared/services/prompt-form.service';
 import { PromptHistoryService } from '../../shared/services/prompt-history.service';
 import { StoryOption } from '../types/story-option';
 import { StoryParams } from '../types/story-params';
+import storyConfig from '../story-commands.json';
 
 @Injectable({
   providedIn: 'root'
@@ -24,28 +25,15 @@ export class StoryService {
   readonly error = this.promptFormService.error;
 
   getStoryLengthOptions(): StoryOption[] {
-    return [
-      { value: 'short', label: 'Short' },
-      { value: 'medium', label: 'Medium' },
-      { value: 'long', label: 'Long' },
-    ];
+    return storyConfig.length;
   }
 
   getGenreOptions(): StoryOption[] {
-    return [
-      { value: 'fantasy', label: 'Fantasy' },
-      { value: 'action', label: 'Action' },
-      { value: 'sci-fi', label: 'Sci-Fi' },
-      { value: 'mystery', label: 'Mystery' },
-      { value: 'romance', label: 'Romance' },
-      { value: 'horror', label: 'Horror' },
-      { value: 'comedy', label: 'Comedy' },
-      { value: 'adventure', label: 'Adventure' },
-    ];
+    return storyConfig.genre.sort((a, b) => a.value.localeCompare(b.value));
   }
 
   async generateStory(
-    { lengthDescription: length, genre }: StoryParams,
+    { length, genre }: StoryParams,
     chunkSignal: WritableSignal<string>,
   ): Promise<void> {
 
@@ -57,9 +45,9 @@ export class StoryService {
       this.promptHistoryService.addPrompt(this.historyKey, this.prompt());
 
       const lengthInstruction = {
-        short: 'a short (around 150 words)',
-        medium: 'a medium-length (around 300 words)',
-        long: 'a long (around 500 words)',
+        short: 'a short (around 300 words)',
+        medium: 'a medium-length (around 450 words)',
+        long: 'a long (around 600 words)',
       }[length];
 
       const fullPrompt = `Write ${lengthInstruction} creative ${genre} story based on the following prompt: "${this.prompt()}"`;

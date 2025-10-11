@@ -69,12 +69,11 @@ export default class StoryGeneratorComponent {
       this.prompt.set(trimmedPrompt);
     }
 
-    const params = {
-      lengthDescription: this.length(),
-      genre: this.genre()
-    };
     await this.storyService.generateStory(
-      params,
+      {
+        length: this.length(),
+        genre: this.genre()
+      },
       this.storyChunk,
     );
   }
