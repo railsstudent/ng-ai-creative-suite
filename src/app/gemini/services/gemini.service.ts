@@ -5,7 +5,6 @@ import { firstValueFrom, forkJoin, map } from 'rxjs';
 import { GEMINI_AI_TOKEN, GEMINI_CHAT_TOKEN, GEMINI_TEXT_CONFIG_TOKEN } from '../constants/ai-injection-tokens.const';
 import { GeneratedData } from '../types/generated-image.type';
 
-const POLLING_PERIOD = 10000;
 const apiKey = GEMINI_API_KEY;
 const DEFAULT_GEMINI_MODEL_NAME = 'gemini-2.5-flash-lite';
 const DEFAULT_IMAGE_MODEL_NAME = 'imagen-4.0-fast-generate-001';
@@ -121,7 +120,7 @@ export class GeminiService {
 
         let operation = await this.ai.models.generateVideos(request);
         while (!operation.done) {
-          await new Promise(resolve => setTimeout(resolve, POLLING_PERIOD));
+          await new Promise(resolve => setTimeout(resolve, +POLLING_PERIOD));
           operation = await this.ai.operations.getVideosOperation({ operation });
         }
 
