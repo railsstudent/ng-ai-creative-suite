@@ -19,8 +19,6 @@ import { LoaderComponent } from '../../shared/loader/loader.component';
     }
     <video [src]="videoUrl()" controls autoplay loop class="w-full rounded-md"></video>
   </div>
-} @else {
-
 }
 
 <app-error-display [error]="videoError()" />
