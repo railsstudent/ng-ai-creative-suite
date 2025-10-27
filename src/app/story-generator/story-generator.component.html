@@ -4,12 +4,13 @@
 
   <div class="generator-container">
     <app-story-generate-menu-bar
-      [(prompt)]="prompt"
+      [prompt]="prompt()"
+      [isLoading]="isLoading()"
       [(storyLength)]="length"
       [(genre)]="genre"
       [storyLengthOptions]="storyLengthOptions"
       [genreOptions]="genreOptions"
-      (generateStory)="generateStory()"
+      (generateStory)="generateStory($event)"
     />
   </div>
 

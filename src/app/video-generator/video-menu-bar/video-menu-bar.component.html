@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-4">
   <!-- Top row: Prompt and Generate Button -->
   <app-prompt-form
-      [(prompt)]="prompt"
+      [prompt]="prompt()"
       (generate)="generateVideo.emit()"
       placeholderText="e.g., An astronaut riding a horse on Mars, cinematic."
     >

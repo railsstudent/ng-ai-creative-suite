@@ -13,6 +13,7 @@ import { StoryOption } from '../types/story-option';
 export class StoryGenerateMenuBarComponent {
   // Two-way bound signals from parent
   prompt = model.required<string>();
+  isLoading = input.required<boolean>();
   storyLength = model.required<string>();
   genre = model.required<string>();
 
@@ -21,5 +22,5 @@ export class StoryGenerateMenuBarComponent {
   genreOptions = input.required<StoryOption[]>();
 
   // Event emitter for generating the story
-  generateStory = output<void>();
+  generateStory = output<string>();
 }

@@ -1,7 +1,8 @@
 <div class="flex flex-col gap-4">
   <app-prompt-form
     [(prompt)]="prompt"
-    (generate)="generateStory.emit()"
+    [isLoading]="isLoading()"
+    (generate)="generateStory.emit($event)"
   >
     <span button-text>Generate Story</span>
   </app-prompt-form>

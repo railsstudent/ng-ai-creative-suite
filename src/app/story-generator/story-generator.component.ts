@@ -56,20 +56,15 @@ export default class StoryGeneratorComponent {
     });
   }
 
-  async generateStory(): Promise<void> {
+  async generateStory(prompt: string): Promise<void> {
     if (this.isGenerationDisabled()) {
       return;
     }
 
     this.clearStory();
-    const trimmedPrompt = this.prompt().trim();
-
-    // Update prompt signal if it contained whitespace
-    if (this.prompt() !== trimmedPrompt) {
-      this.prompt.set(trimmedPrompt);
-    }
 
     await this.storyService.generateStory(
+      prompt,
       {
         length: this.length(),
         genre: this.genre()
