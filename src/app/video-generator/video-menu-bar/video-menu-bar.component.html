@@ -26,5 +26,13 @@
         }
       </select>
     </div>
+    <div>
+      <label for="resolution" class="story-label">Aspect Ratio</label>
+      <select id="resolution" [(ngModel)]="resolution" class="ai-dropdown">
+        @for (resolution of resolutionOptions; track resolution) {
+          <option [ngValue]="resolution">{{ resolution }}</option>
+        }
+      </select>
+    </div>
   </div>
 </div>

@@ -35,6 +35,7 @@ export default class VideoGeneratorComponent {
 
   numberOfVideos = signal(1);
   aspectRatio = signal('16:9');
+  resolution = signal('1080p');
 
   constructor() {
     this.prompt.set('A cinematic shot of a majestic lion in the savannah at sunset.');
@@ -53,6 +54,7 @@ export default class VideoGeneratorComponent {
     const videos = await this.videoService.generateVideosFromPrompt({
       numberOfVideos: this.numberOfVideos(),
       aspectRatio: this.aspectRatio(),
+      resolution: this.resolution(),
     });
 
     this.videoUrls.set(videos);
