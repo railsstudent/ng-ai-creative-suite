@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { GeminiService } from '../../gemini/services/gemini.service';
 import { ParserService } from '../../shared/services/parser.service';
 import { PromptHistoryService } from '../../shared/services/prompt-history.service';
@@ -21,7 +21,6 @@ export class StoryService {
   readonly prompt = signal('');
   readonly isLoading = signal(false);
   readonly error = signal('');
-  readonly isGenerationDisabled = computed(() => !this.prompt().trim() || this.isLoading());
 
   getStoryLengthOptions(): StoryOption[] {
     return storyConfig.length;

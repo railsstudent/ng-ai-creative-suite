@@ -22,5 +22,5 @@ export class StoryGenerateMenuBarComponent {
   genreOptions = input.required<StoryOption[]>();
 
   // Event emitter for generating the story
-  generateStory = output<string>();
+  generateStory = output<{ prompt: string, isGenerationDisabled: boolean }>();
 }

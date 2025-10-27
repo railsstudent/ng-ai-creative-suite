@@ -17,11 +17,14 @@ export class PromptFormComponent {
   trimmedPrompt = computed(() => this.prompt()?.trim() || '');
   isGenerationDisabled = computed(() => !this.trimmedPrompt() || this.isLoading());
 
-  generate = output<string>();
+  generate = output<{ prompt: string, isGenerationDisabled: boolean }>();
 
   onGenerateClick(): void {
     if (!this.isGenerationDisabled()) {
-      this.generate.emit(this.trimmedPrompt());
+      this.generate.emit({
+        prompt: this.trimmedPrompt(),
+        isGenerationDisabled: this.isGenerationDisabled(),
+      });
     }
   }
 

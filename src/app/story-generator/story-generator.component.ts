@@ -30,7 +30,7 @@ export default class StoryGeneratorComponent {
   prompt = this.storyService.prompt;
   isLoading = this.storyService.isLoading;
   error = this.storyService.error;
-  isGenerationDisabled = this.storyService.isGenerationDisabled;
+  // isGenerationDisabled = this.storyService.isGenerationDisabled;
 
   length = signal<StoryLength>('short');
   genre = signal('fantasy');
@@ -56,8 +56,8 @@ export default class StoryGeneratorComponent {
     });
   }
 
-  async generateStory(prompt: string): Promise<void> {
-    if (this.isGenerationDisabled()) {
+  async generateStory({ prompt, isGenerationDisabled }: { prompt: string, isGenerationDisabled: boolean }): Promise<void> {
+    if (isGenerationDisabled) {
       return;
     }
 
