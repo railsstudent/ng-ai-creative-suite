@@ -88,7 +88,9 @@ export default class ImageCreatorComponent {
     const images = await this.imageService.generateImages(
       { numberOfImages: this.numberOfImages(), aspectRatio: this.aspectRatio() }
     );
-    this.imageUrls.set(images);
+
+    const imagesWithCorrecId = images.map((image, index) => ({ ...image, id: index + 1 }));
+    this.imageUrls.set(imagesWithCorrecId);
   }
 
   selectImage(id: number): void {
@@ -173,8 +175,13 @@ export default class ImageCreatorComponent {
     const imageBytes = image.url.split(',')[1];
     const videos = await this.videoService.generateVideosFromImage(
       {
-        numberOfVideos: 1, aspectRatio: '16:9',
-      }, false, imageBytes);
+        numberOfVideos: 1,
+        aspectRatio: '16:9',
+        resolution: '1080p',
+      },
+      false,
+      imageBytes
+    );
 
     if (!videos || videos.length === 0) {
       this.error.set('Video generation finished, but the final video could not be prepared.');

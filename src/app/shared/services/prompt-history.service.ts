@@ -1,6 +1,6 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 
-const MAX_HISTORY_SIZE = 8;
+const MAX_HISTORY_SIZE = 5;
 const STORAGE_PREFIX = 'promptHistory_';
 
 @Injectable({
