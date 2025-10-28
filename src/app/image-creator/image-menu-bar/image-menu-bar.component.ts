@@ -13,6 +13,7 @@ import { PromptFormComponent } from '../../shared/prompt-form/prompt-form.compon
 export class ImageMenuBarComponent {
   // Two-way bound signals from parent
   prompt = model.required<string>();
+  isLoading = input.required<boolean>();
   numberOfImages = model<number>();
   aspectRatio = model<string>();
   enableVideoGeneration = model(true);
@@ -26,6 +27,6 @@ export class ImageMenuBarComponent {
   isGenerateVideoDisabled = input(false);
 
   // Event emitters
-  generateImage = output<void>();
+  generateImage = output<{ prompt: string, isGenerationDisabled: boolean }>();
   generateVideo = output<void>();
 }

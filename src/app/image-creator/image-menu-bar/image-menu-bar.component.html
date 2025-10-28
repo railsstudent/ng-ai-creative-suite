@@ -2,7 +2,8 @@
   <!-- Top row: Prompt and Generate Button -->
   <app-prompt-form
     [prompt]="prompt()"
-    (generate)="generateImage.emit()"
+    [isLoading]="isLoading()"
+    (generate)="generateImage.emit($event)"
     placeholderText="e.g., A synthwave sunset over a futuristic city."
   >
     <span button-text>Generate Image</span>

@@ -72,25 +72,23 @@ export default class ImageCreatorComponent {
     this.prompt.set('A photorealistic image of a cat wearing a tiny wizard hat.');
   }
 
-  async generateImage(): Promise<void> {
-    if (this.isGenerationDisabled()) {
+  async generateImage({ prompt, isGenerationDisabled }:
+    { prompt: string, isGenerationDisabled: boolean }
+  ): Promise<void> {
+    if (isGenerationDisabled) {
       return;
     }
 
     this.imageUrls.set([]);
     this.selectedImageId.set(null);
 
-    const trimmedPrompt = this.prompt().trim();
-    if (this.prompt() !== trimmedPrompt) {
-        this.prompt.set(trimmedPrompt);
-    }
-
     const images = await this.imageService.generateImages(
+      prompt,
       { numberOfImages: this.numberOfImages(), aspectRatio: this.aspectRatio() }
     );
 
-    const imagesWithCorrecId = images.map((image, index) => ({ ...image, id: index + 1 }));
-    this.imageUrls.set(imagesWithCorrecId);
+    const imagesWithCorrectId = images.map((image, index) => ({ ...image, id: index + 1 }));
+    this.imageUrls.set(imagesWithCorrectId);
   }
 
   selectImage(id: number): void {

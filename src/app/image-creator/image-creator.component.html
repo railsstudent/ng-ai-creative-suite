@@ -5,12 +5,13 @@
   <div class="generator-container">
     <app-image-menu-bar
       [(prompt)]="prompt"
+      [isLoading]="isLoading()"
       [(numberOfImages)]="numberOfImages"
       [(aspectRatio)]="aspectRatio"
       [(enableVideoGeneration)]="enableVideoGeneration"
       [isGeneratingVideo]="isGeneratingVideo()"
       [isGenerateVideoDisabled]="isGenerateVideoDisabled()"
-      (generateImage)="generateImage()"
+      (generateImage)="generateImage($event)"
       (generateVideo)="generateVideo()"
     />
   </div>

@@ -56,7 +56,9 @@ export default class StoryGeneratorComponent {
     });
   }
 
-  async generateStory({ prompt, isGenerationDisabled }: { prompt: string, isGenerationDisabled: boolean }): Promise<void> {
+  async generateStory({ prompt, isGenerationDisabled }:
+    { prompt: string, isGenerationDisabled: boolean }
+  ): Promise<void> {
     if (isGenerationDisabled) {
       return;
     }
