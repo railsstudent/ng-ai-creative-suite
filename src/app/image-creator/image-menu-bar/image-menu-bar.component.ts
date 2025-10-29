@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, input, model, output } from '@angul
 import { FormsModule } from '@angular/forms';
 import { SpinnerIconComponent } from '../../shared/icons/spinner-icon.component';
 import { PromptFormComponent } from '../../shared/prompt-form/prompt-form.component';
+import { GeneratePrompt } from '../../shared/types/generate-prompt.type';
+import { GenerateVideoPrompt } from '../types/generate-video-prompt.type';
 
 @Component({
   selector: 'app-image-menu-bar',
@@ -27,6 +29,6 @@ export class ImageMenuBarComponent {
   isGenerateVideoDisabled = input(false);
 
   // Event emitters
-  generateImage = output<{ prompt: string, isGenerationDisabled: boolean }>();
-  generateVideo = output<{ prompt: string, isGenerateVideoDisabled: boolean }>();
+  generateImage = output<GeneratePrompt>();
+  generateVideo = output<GenerateVideoPrompt>();
 }

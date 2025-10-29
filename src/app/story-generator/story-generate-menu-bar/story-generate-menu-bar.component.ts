@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PromptFormComponent } from '../../shared/prompt-form/prompt-form.component';
+import { GeneratePrompt } from '../../shared/types/generate-prompt.type';
 import { StoryOption } from '../types/story-option';
 
 @Component({
@@ -22,5 +23,5 @@ export class StoryGenerateMenuBarComponent {
   genreOptions = input.required<StoryOption[]>();
 
   // Event emitter for generating the story
-  generateStory = output<{ prompt: string, isGenerationDisabled: boolean }>();
+  generateStory = output<GeneratePrompt>();
 }

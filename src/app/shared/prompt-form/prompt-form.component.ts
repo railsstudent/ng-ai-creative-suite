@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SpinnerIconComponent } from '../icons/spinner-icon.component';
+import { GeneratePrompt } from '../types/generate-prompt.type';
 
 @Component({
   selector: 'app-prompt-form',
@@ -17,7 +18,7 @@ export class PromptFormComponent {
   trimmedPrompt = computed(() => this.prompt()?.trim() || '');
   isGenerationDisabled = computed(() => !this.trimmedPrompt() || this.isLoading());
 
-  generate = output<{ prompt: string, isGenerationDisabled: boolean }>();
+  generate = output<GeneratePrompt>();
 
   onGenerateClick(): void {
     if (!this.isGenerationDisabled()) {

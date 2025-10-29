@@ -6,12 +6,14 @@ import { ContainerComponent } from '../shared/container/container.component';
 import { ErrorDisplayComponent } from '../shared/error-display/error-display.component';
 import { LoaderComponent } from '../shared/loader/loader.component';
 import { PromptHistoryComponent } from '../shared/prompt-history/prompt-history.component';
+import { GeneratePrompt } from '../shared/types/generate-prompt.type';
 import { VideoService } from '../video-generator/services/video.service';
 import { VideoPlayerComponent } from '../video-generator/video-player/video-player.component';
 import { ImageGridComponent } from './image-grid/image-grid.component';
 import { ImageMenuBarComponent } from './image-menu-bar/image-menu-bar.component';
 import { ImageConfirmationService } from './services/confirmation.service';
 import { ImageService } from './services/image.service';
+import { GenerateVideoPrompt } from './types/generate-video-prompt.type';
 import { ImageDownloadEvent } from './types/image.type';
 
 @Component({
@@ -74,9 +76,7 @@ export default class ImageCreatorComponent {
     this.prompt.set('A photorealistic image of a cat wearing a tiny wizard hat.');
   }
 
-  async generateImage({ prompt, isGenerationDisabled }:
-    { prompt: string, isGenerationDisabled: boolean }
-  ): Promise<void> {
+  async generateImage({ prompt, isGenerationDisabled }: GeneratePrompt): Promise<void> {
     if (isGenerationDisabled) {
       return;
     }
@@ -119,9 +119,7 @@ export default class ImageCreatorComponent {
     this.confirmationService.setRegenerateImage(id);
   }
 
-  async generateVideo(
-    { prompt, isGenerateVideoDisabled }: { prompt: string, isGenerateVideoDisabled: boolean }
-  ): Promise<void> {
+  async generateVideo({ prompt, isGenerateVideoDisabled }: GenerateVideoPrompt): Promise<void> {
     if (isGenerateVideoDisabled) {
       return;
     }

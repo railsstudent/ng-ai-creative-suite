@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PromptFormComponent } from '../../shared/prompt-form/prompt-form.component';
+import { GeneratePrompt } from '../../shared/types/generate-prompt.type';
 
 @Component({
   selector: 'app-video-menu-bar',
@@ -24,5 +25,5 @@ export class VideoMenuBarComponent {
   readonly resolutionOptions = ["720p", "1080p"];
 
   // Event emitters
-  generateVideo = output<{ prompt: string, isGenerationDisabled: boolean }>();
+  generateVideo = output<GeneratePrompt>();
 }

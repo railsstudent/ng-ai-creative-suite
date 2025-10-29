@@ -4,6 +4,7 @@ import { ContainerComponent } from '../shared/container/container.component';
 import { ErrorDisplayComponent } from '../shared/error-display/error-display.component';
 import { LoaderComponent } from '../shared/loader/loader.component';
 import { PromptHistoryComponent } from '../shared/prompt-history/prompt-history.component';
+import { GeneratePrompt } from '../shared/types/generate-prompt.type';
 import { VideoService } from './services/video.service';
 import { VideoGridComponent } from "./video-grid/video-grid.component";
 import { VideoMenuBarComponent } from './video-menu-bar/video-menu-bar.component';
@@ -40,9 +41,7 @@ export default class VideoGeneratorComponent {
     this.prompt.set('A cinematic shot of a majestic lion in the savannah at sunset.');
   }
 
-  async generateVideos({ prompt, isGenerationDisabled }:
-    { prompt: string, isGenerationDisabled: boolean }
-  ): Promise<void> {
+  async generateVideos({ prompt, isGenerationDisabled }: GeneratePrompt): Promise<void> {
 
     if (isGenerationDisabled) {
       return;
