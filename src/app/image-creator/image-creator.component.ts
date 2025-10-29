@@ -10,6 +10,7 @@ import { VideoService } from '../video-generator/services/video.service';
 import { VideoPlayerComponent } from '../video-generator/video-player/video-player.component';
 import { ImageGridComponent } from './image-grid/image-grid.component';
 import { ImageMenuBarComponent } from './image-menu-bar/image-menu-bar.component';
+import { ImageConfirmationService } from './services/confirmation.service';
 import { ImageService } from './services/image.service';
 import { ImageDownloadEvent } from './types/image.type';
 
@@ -33,6 +34,7 @@ import { ImageDownloadEvent } from './types/image.type';
 export default class ImageCreatorComponent {
   private imageService = inject(ImageService);
   private videoService = inject(VideoService);
+  private confirmationService = inject(ImageConfirmationService);
 
   promptHistory = this.imageService.promptHistory;
   prompt = this.imageService.prompt;
@@ -46,12 +48,13 @@ export default class ImageCreatorComponent {
 
   // Video generation state
   enableVideoGeneration = signal(true);
-  selectedImageId = signal<number | null>(null);
+  selectedImageId = this.confirmationService.selectedImageId;
 
   // New state for confirmation dialog
-  showConfirmation = signal<'download' | 'regenerate' | 'none'>('none');
-  imageToDownload = signal<ImageDownloadEvent | null>(null);
-  imageToRegenerate = signal(-1);
+  imageToRegenerate = this.confirmationService.imageToRegenerate;
+  imageToDownload = this.confirmationService.imageToDownload;
+  showConfirmation = this.confirmationService.showConfirmation;
+
   videoUrl = signal('');
   videoError = this.videoService.videoError;
   isGeneratingVideo = this.videoService.isGeneratingVideo;
@@ -80,85 +83,41 @@ export default class ImageCreatorComponent {
     }
 
     this.imageUrls.set([]);
-    this.selectedImageId.set(null);
+    this.confirmationService.resetImage();
 
     const images = await this.imageService.generateImages(
       prompt,
       { numberOfImages: this.numberOfImages(), aspectRatio: this.aspectRatio() }
     );
 
-    const imagesWithCorrectId = images.map((image, index) => ({ ...image, id: index + 1 }));
-    this.imageUrls.set(imagesWithCorrectId);
+    this.imageUrls.set(images);
   }
 
   selectImage(id: number): void {
-    this.selectedImageId.update(currentId => currentId === id ? null : id);
+    this.confirmationService.selectImage(id);
   }
 
   downloadImage(image: ImageDownloadEvent): void {
-    this.imageToDownload.set(image);
-    this.showConfirmation.set('download');
+    this.confirmationService.setDownloadImage(image);
   }
 
   async doConfirm() {
-    if (this.showConfirmation() === 'download') {
-      this.confirmDownload();
-    } else if (this.showConfirmation() === 'regenerate') {
-      await this.confirmRegenerate();
+    const imageOrUndefined = await this.confirmationService.doConfirm(this.aspectRatio());
+    if (imageOrUndefined) {
+      this.imageUrls.update((images) => {
+        return images.map((image) =>
+          image.id === imageOrUndefined.id ? imageOrUndefined : image
+        );
+      });
     }
   }
 
   doCancel() {
-    if (this.showConfirmation() === 'download') {
-      this.cancelDownload();
-    } else if (this.showConfirmation() === 'regenerate') {
-      this.cancelRegenerate();
-    }
+    this.confirmationService.doCancel();
   }
 
-  private confirmDownload(): void {
-    const image = this.imageToDownload();
-    if (!image) {
-      return;
-    }
-
-    this.imageService.downloadImage(image);
-    this.cancelDownload();
-  }
-
-  private cancelDownload(): void {
-    this.showConfirmation.set('none');
-    this.imageToDownload.set(null);
-  }
-
-  regenerateImage(index: number): void {
-    this.imageToRegenerate.set(index);
-    this.showConfirmation.set('regenerate');
-  }
-
-  private async confirmRegenerate() {
-    if (this.imageToRegenerate() < 0) {
-      return;
-    }
-
-    const index = this.imageToRegenerate();
-    this.cancelRegenerate();
-
-    const config = {
-      numberOfImages: 1,
-      aspectRatio: this.aspectRatio(),
-    };
-    const image = await this.imageService.regenerateImage(config);
-    if (image) {
-      this.imageUrls.update(
-        (items) => items.map((item, i) => i == index ? image : item)
-      );
-    }
-  }
-
-  private cancelRegenerate(): void {
-    this.showConfirmation.set('none');
-    this.imageToRegenerate.set(-1);
+  regenerateImage(id: number): void {
+    this.confirmationService.setRegenerateImage(id);
   }
 
   async generateVideo(): Promise<void> {
@@ -175,7 +134,7 @@ export default class ImageCreatorComponent {
       {
         numberOfVideos: 1,
         aspectRatio: '16:9',
-        resolution: '1080p',
+        // resolution: '1080p',
       },
       false,
       imageBytes
