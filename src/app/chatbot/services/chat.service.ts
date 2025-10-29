@@ -49,7 +49,7 @@ export class ChatBotService  {
 
       const parsedMarkdown = await marked.parse(this.#message());
       this.#messages.set([...this.#messages(), { id: newId, sender: 'bot', text: parsedMarkdown }]);
-    } catch (e: unknown) {
+    } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'Sorry, I encountered an error. Please try again.';
       this.#messages.set([...this.#messages(), { id: newId, sender: 'bot', text: errorMessage }]);
     } finally {

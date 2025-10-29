@@ -57,7 +57,7 @@ export class StoryService {
         const markdownText = chunkText.replace(/\n\n/g, '<br><br>')
         chunkSignal.set(markdownText);
       }
-    } catch (e: unknown) {
+    } catch (e) {
       this.error.set(e instanceof Error ? e.message : 'Failed to generate story. Please try again.');
       console.error(e);
     } finally {

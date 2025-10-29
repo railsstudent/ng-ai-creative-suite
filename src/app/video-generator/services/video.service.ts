@@ -46,7 +46,7 @@ export class VideoService {
       }
 
       return results.map((url, id) => ({ id, url }));
-    } catch (e: unknown) {
+    } catch (e) {
       this.videoError.set(e instanceof Error ? e.message : 'An unexpected error occurred. Please try again.');
       console.error(e);
       return [];

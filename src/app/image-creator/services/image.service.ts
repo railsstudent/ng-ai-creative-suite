@@ -39,7 +39,7 @@ export class ImageService {
       }
 
       return results;
-    } catch (e: unknown) {
+    } catch (e) {
       this.error.set(e instanceof Error ? e.message : 'An unexpected error occurred. Please try again.');
       console.error(e);
       return [];
@@ -78,7 +78,7 @@ export class ImageService {
       }
 
       return results[0];
-    } catch (e: unknown) {
+    } catch (e) {
       this.error.set(e instanceof Error ? e.message : 'An unexpected error occurred. Please try again.');
       console.error(e);
       return undefined;
