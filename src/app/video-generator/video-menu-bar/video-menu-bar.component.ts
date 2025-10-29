@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, model, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PromptFormComponent } from '../../shared/prompt-form/prompt-form.component';
 
@@ -12,15 +12,17 @@ import { PromptFormComponent } from '../../shared/prompt-form/prompt-form.compon
 export class VideoMenuBarComponent {
   // Two-way bound signals from parent
   prompt = model.required<string>();
+  isLoading = input.required<boolean>();
+
   numberOfVideos = model<number>();
   aspectRatio = model<string>();
   resolution = model<string>();
 
   // Input options are now defined here
-  readonly imageCountOptions = [1, 2, 3, 4];
+  readonly videoCountOptions = [1, 2, 3, 4];
   readonly aspectRatioOptions = ["16:9"];
   readonly resolutionOptions = ["720p", "1080p"];
 
   // Event emitters
-  generateVideo = output<void>();
+  generateVideo = output<{ prompt: string, isGenerationDisabled: boolean }>();
 }

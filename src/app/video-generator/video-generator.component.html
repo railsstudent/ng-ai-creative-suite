@@ -4,10 +4,11 @@
   <div class="generator-container">
     <app-video-menu-bar
       [(prompt)]="prompt"
+      [isLoading]="isLoading()"
       [(numberOfVideos)]="numberOfVideos"
       [(aspectRatio)]="aspectRatio"
       [(resolution)]="resolution"
-      (generateVideo)="generateVideos()"
+      (generateVideo)="generateVideos($event)"
     />
   </div>
 

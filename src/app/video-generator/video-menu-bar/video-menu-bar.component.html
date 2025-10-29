@@ -2,7 +2,8 @@
   <!-- Top row: Prompt and Generate Button -->
   <app-prompt-form
       [prompt]="prompt()"
-      (generate)="generateVideo.emit()"
+      [isLoading]="isLoading()"
+      (generate)="generateVideo.emit($event)"
       placeholderText="e.g., An astronaut riding a horse on Mars, cinematic."
     >
       <span button-text>Generate Video</span>
@@ -13,7 +14,7 @@
     <div>
       <label for="video-count" class="story-label">Number of videos</label>
       <select id="video-count" [(ngModel)]="numberOfVideos" class="ai-dropdown">
-        @for (count of imageCountOptions; track count) {
+        @for (count of videoCountOptions; track count) {
           <option [ngValue]="count">{{ count }}</option>
         }
       </select>
@@ -27,7 +28,7 @@
       </select>
     </div>
     <div>
-      <label for="resolution" class="story-label">Aspect Ratio</label>
+      <label for="resolution" class="story-label">Resolution</label>
       <select id="resolution" [(ngModel)]="resolution" class="ai-dropdown">
         @for (resolution of resolutionOptions; track resolution) {
           <option [ngValue]="resolution">{{ resolution }}</option>

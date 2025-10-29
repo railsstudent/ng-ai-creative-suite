@@ -29,7 +29,6 @@ export default class VideoGeneratorComponent {
 
   prompt = this.videoService.prompt;
   promptHistory = this.videoService.promptHistory;
-  isGenerationDisabled = this.videoService.isGenerationDisabled;
   isLoading = this.videoService.isGeneratingVideo;
   error = this.videoService.videoError;
 
@@ -41,8 +40,11 @@ export default class VideoGeneratorComponent {
     this.prompt.set('A cinematic shot of a majestic lion in the savannah at sunset.');
   }
 
-  async generateVideos(): Promise<void> {
-    if (this.isGenerationDisabled()) {
+  async generateVideos({ prompt, isGenerationDisabled }:
+    { prompt: string, isGenerationDisabled: boolean }
+  ): Promise<void> {
+
+    if (isGenerationDisabled) {
       return;
     }
 
@@ -51,10 +53,12 @@ export default class VideoGeneratorComponent {
       this.prompt.set(trimmedPrompt);
     }
 
-    const videos = await this.videoService.generateVideosFromPrompt({
+    const videos = await this.videoService.generateVideosFromPrompt(
+      prompt,
+      {
       numberOfVideos: this.numberOfVideos(),
       aspectRatio: this.aspectRatio(),
-      resolution: this.resolution(),
+      // resolution: this.resolution(),
     });
 
     this.videoUrls.set(videos);

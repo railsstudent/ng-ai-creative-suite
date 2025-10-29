@@ -2,7 +2,6 @@ import { inject, Injectable, signal } from '@angular/core';
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 import { GeminiService } from '../../gemini/services/gemini.service';
-import { PromptFormService } from '../../shared/services/prompt-form.service';
 import { INITIAL_BOT_MESSAGE } from '../constants/chat.const';
 
 @Injectable({
@@ -10,9 +9,8 @@ import { INITIAL_BOT_MESSAGE } from '../constants/chat.const';
 })
 export class ChatBotService  {
   private readonly geminiService = inject(GeminiService);
-  private readonly promptFormService = inject(PromptFormService);
 
-  isLoading = this.promptFormService.isLoading;
+  isLoading = signal(false);
 
   #messages = signal([INITIAL_BOT_MESSAGE]);
   messages = this.#messages.asReadonly();

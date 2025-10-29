@@ -40,7 +40,6 @@ export default class ImageCreatorComponent {
   prompt = this.imageService.prompt;
   isLoading = this.imageService.isLoading;
   error = this.imageService.error;
-  isGenerationDisabled = this.imageService.isGenerationDisabled;
 
   imageUrls = signal<GeneratedData[]>([]);
   numberOfImages = signal(1);
@@ -104,11 +103,11 @@ export default class ImageCreatorComponent {
   async doConfirm() {
     const imageOrUndefined = await this.confirmationService.doConfirm(this.aspectRatio());
     if (imageOrUndefined) {
-      this.imageUrls.update((images) => {
-        return images.map((image) =>
+      this.imageUrls.update((images) =>
+        images.map((image) =>
           image.id === imageOrUndefined.id ? imageOrUndefined : image
-        );
-      });
+        )
+      );
     }
   }
 
@@ -120,7 +119,13 @@ export default class ImageCreatorComponent {
     this.confirmationService.setRegenerateImage(id);
   }
 
-  async generateVideo(): Promise<void> {
+  async generateVideo(
+    { prompt, isGenerateVideoDisabled }: { prompt: string, isGenerateVideoDisabled: boolean }
+  ): Promise<void> {
+    if (isGenerateVideoDisabled) {
+      return;
+    }
+
     const image = this.selectedImage();
     if (!image || !image.url.split(',')?.[1]) {
       this.error.set('Could not extract base64 data from image URL.');
@@ -131,6 +136,7 @@ export default class ImageCreatorComponent {
     this.videoUrl.set('');
     const imageBytes = image.url.split(',')[1];
     const videos = await this.videoService.generateVideosFromImage(
+        prompt,
       {
         numberOfVideos: 1,
         aspectRatio: '16:9',

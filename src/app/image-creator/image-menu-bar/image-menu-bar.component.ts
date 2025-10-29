@@ -28,5 +28,5 @@ export class ImageMenuBarComponent {
 
   // Event emitters
   generateImage = output<{ prompt: string, isGenerationDisabled: boolean }>();
-  generateVideo = output<void>();
+  generateVideo = output<{ prompt: string, isGenerateVideoDisabled: boolean }>();
 }

@@ -1,4 +1,4 @@
-import { computed, DOCUMENT, inject, Injectable, signal } from '@angular/core';
+import { DOCUMENT, inject, Injectable, signal } from '@angular/core';
 import { GenerateImagesConfig } from '@google/genai';
 import { GeminiService } from '../../gemini/services/gemini.service';
 import { GeneratedData } from '../../gemini/types/generated-image.type';
@@ -17,7 +17,6 @@ export class ImageService {
 
   readonly promptHistory = this.promptHistoryService.getHistory(this.historyKey).asReadonly();
   readonly isLoading = signal(false);
-  readonly isGenerationDisabled = computed(() => !this.prompt().trim() || this.isLoading());
   readonly prompt = signal('');
   readonly error = signal('');
 

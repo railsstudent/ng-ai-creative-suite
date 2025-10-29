@@ -43,7 +43,7 @@ export class GeminiService {
         if (parsed?.error?.message) {
             return parsed.error.message;
         }
-    } catch(e) {
+    } catch {
         // Not JSON, or failed to parse.
         // We can just return the raw message if it's not JSON-like
         if (rawMessage && !rawMessage.trim().startsWith('{')) {
