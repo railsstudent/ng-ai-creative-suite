@@ -30,11 +30,21 @@ ng generate --help
 
 Visit `https://aistudio.google.com/apikey` and copy the Gemini API Key.
 
-To build the project run:
+To build the project in development mode, run:
+
+```bash
+export GEMINI_API_KEY=<gemini api key>
+ng build --define GEMINI_API_KEY=\'$GEMINI_API_KEY\' --configuration development
+cp dist/index.html dist/404.html
+serve dist
+```
+
+To build the project in production mode, run:
 
 ```bash
 export GEMINI_API_KEY=<gemini api key>
 ng build --define GEMINI_API_KEY=\'$GEMINI_API_KEY\'
+cp dist/index.html dist/404.html
 serve dist
 ```
 
